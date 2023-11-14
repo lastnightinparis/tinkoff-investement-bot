@@ -1,9 +1,6 @@
 package com.itmo.tinkoffinvestementbot.service;
 
-import com.itmo.tinkoffinvestementbot.config.ApiConfig;
-import com.itmo.tinkoffinvestementbot.dto.CandlesDto;
-import com.itmo.tinkoffinvestementbot.model.Candle;
-import com.itmo.tinkoffinvestementbot.model.StockInfo;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +9,9 @@ import ru.tinkoff.piapi.contract.v1.CandleInterval;
 import ru.tinkoff.piapi.contract.v1.HistoricCandle;
 import ru.tinkoff.piapi.contract.v1.Share;
 import ru.tinkoff.piapi.core.InvestApi;
+import tinkoffinvestementbot.dto.CandlesDto;
+import tinkoffinvestementbot.model.Candle;
+import tinkoffinvestementbot.model.StockInfo;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -43,7 +43,7 @@ public class TinkoffCandleService implements CandleService {
 
         return shares.stream().
                 map(this::getStockModel)
-                .map(stockInfo -> new CandlesDto(stockInfo, getCandlesExample(stockInfo.getFigi())))
+                .map(stockInfo -> new CandlesDto(stockInfo, getCandlesExample(stockInfo.figi())))
                 .toList();
 
     }

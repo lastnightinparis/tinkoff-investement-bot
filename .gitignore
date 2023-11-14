@@ -39,12 +39,13 @@ mvnw.cmd
 .settings
 .springBeans
 .sts4-cache
-
+parent/tinkoff-investement-bot-parent.iml
 ### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
+out/
 
 ### NetBeans ###
 /nbproject/private/

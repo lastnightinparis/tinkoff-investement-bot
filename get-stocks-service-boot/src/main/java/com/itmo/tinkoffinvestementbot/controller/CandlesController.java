@@ -1,10 +1,10 @@
 package com.itmo.tinkoffinvestementbot.controller;
 
 
-import com.itmo.tinkoffinvestementbot.dto.CandlesDto;
 import com.itmo.tinkoffinvestementbot.service.CandleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import tinkoffinvestementbot.dto.CandlesDto;
 
 import java.util.List;
 

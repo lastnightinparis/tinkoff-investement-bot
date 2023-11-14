@@ -1,6 +1,8 @@
 package com.itmo.tinkoffinvestementbot.service;
 
-import com.itmo.tinkoffinvestementbot.dto.CandlesDto;
+
+
+import tinkoffinvestementbot.dto.CandlesDto;
 
 import java.util.List;
 

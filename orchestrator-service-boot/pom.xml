@@ -10,7 +10,7 @@
         <relativePath>../parent</relativePath>
     </parent>
 
-    <artifactId>get-stocks-service-boot</artifactId>
+    <artifactId>orchestrator-service-boot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <dependencies>
