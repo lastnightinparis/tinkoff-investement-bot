@@ -5,11 +5,10 @@ import lombok.Value;
 
 @Value
 @AllArgsConstructor
-public class Stock {
+public class StockInfo {
     String ticker;
     String figi;
     String name;
     String type;
-    Currency currency;
-    String source;
+    String currency;
 }
