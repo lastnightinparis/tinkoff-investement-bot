@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Liquibase
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: telegram_chat_id
+                  type: BIGINT
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: account_id
+                  type: varchar(64)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: token
+                  type: varchar(128)
+                  constraints:
+                    nullable: true
+  - changeSet:
+      id: 2
+      author: Liquibase
+      comment: "Add dummy user"
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: telegram_chat_id
+                  value: 69420
+              - column:
+                  name: token
+                  value: "t.AdUGgkpyAismjr9vWdDDfaIZL-FMt6lxkDd42RfRrMQNX29J44E8ox5g2YjVKdUoGgNuRKnj5s36qQuUFEvBRw"
+      rollback:
+        - delete:
+            tableName: users
+            where: telegram_chat_id in (69420)
