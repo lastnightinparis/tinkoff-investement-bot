@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.2</version>
+        <version>3.1.6-SNAPSHOT</version> <!-- Для docker-compose версии 2.23 spring стартует только на этой версии -->
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -21,6 +21,22 @@
     <properties>
         <java.version>17</java.version>
     </properties>
+
+    <!-- Snapshot артефакторий spring для 3.1.6-SNAPSHOT -->
+    <repositories>
+        <repository>
+            <id>spring-snapshot</id>
+            <name>spring-snapshot</name>
+            <url>https://repo.spring.io/snapshot</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-snapshot</id>
+            <name>spring-snapshot</name>
+            <url>https://repo.spring.io/snapshot</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <dependencies>
         <dependency>
@@ -57,7 +73,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -79,6 +94,10 @@
             <artifactId>telegrambots</artifactId>
             <version>5.3.0</version>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
         </dependency>
     </dependencies>
 
