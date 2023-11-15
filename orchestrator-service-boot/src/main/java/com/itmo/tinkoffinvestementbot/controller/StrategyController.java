@@ -27,7 +27,7 @@ public class StrategyController {
         strategyService.run(runStrategyRequestDto);
     }
 
-    @GetMapping("/strategy/info")
+    @GetMapping("/strategy/list")
     public List<ResponseStrategyDto> list() {
         return strategyService.list();
     }
