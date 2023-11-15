@@ -16,7 +16,7 @@
         <module>domain</module>
         <module>get-stocks-service-boot</module>
         <module>orchestrator-service-boot</module>
-        <module>stratagy-service-boot</module>
+        <module>strategy-service-boot</module>
     </modules>
 
     <properties>
