@@ -5,6 +5,12 @@
     "baseCallback": "strategy",
     "keyboard": []
   },
+  "STRATEGIES_PARAM_LIST": {
+    "type": "dynamic-from-resource",
+    "max-column-size": 2,
+    "baseCallback": "chooseStrategyParam",
+    "keyboard": []
+  },
   "EDIT_NOTIFICATION_EVENT": {
     "type": "dynamic-fields",
     "dynamic-fields": [ "editNotificationEvent", "cancelNotificationEvent" ],

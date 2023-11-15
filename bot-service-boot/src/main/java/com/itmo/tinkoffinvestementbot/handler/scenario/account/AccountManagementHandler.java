@@ -2,8 +2,8 @@ package com.itmo.tinkoffinvestementbot.handler.scenario.account;
 
 import com.itmo.tinkoffinvestementbot.handler.registry.ResourceMessageRegistry;
 import com.itmo.tinkoffinvestementbot.handler.type.BotStateTypeHandler;
-import com.itmo.tinkoffinvestementbot.handler.update.TextUpdate;
 import com.itmo.tinkoffinvestementbot.handler.update.CallbackUpdate;
+import com.itmo.tinkoffinvestementbot.handler.update.TextUpdate;
 import com.itmo.tinkoffinvestementbot.model.domain.User;
 import com.itmo.tinkoffinvestementbot.model.enums.bot.BotState;
 import com.itmo.tinkoffinvestementbot.service.bot.BotSenderService;
@@ -98,7 +98,7 @@ public class AccountManagementHandler implements CallbackUpdate, TextUpdate, Bot
                 sendMessage.setText(messageRegistry.getMessage("account.processing"));
                 String apiToken = message.getText();
                 // TODO: Отправить токен через CompletableFuture и получить ValidateTokenResponse
-                CompletableFuture.completedFuture(new ValidateTokenResponse(true))
+                CompletableFuture.completedFuture(new ValidateTokenResponse("", true))
                         .thenApply(response -> {
                             SendMessage newMessage = new SendMessage();
                             BeanUtils.copyProperties(sendMessage, newMessage);

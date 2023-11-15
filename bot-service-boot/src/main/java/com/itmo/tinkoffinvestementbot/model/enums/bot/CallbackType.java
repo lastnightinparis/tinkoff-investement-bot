@@ -8,7 +8,8 @@ import java.util.stream.Stream;
 @Getter
 public enum CallbackType {
 
-    STRATEGY("strategy", BotState.START),
+    STRATEGY("strategy", BotState.CHOOSE_STRATEGY_ACTION),
+    CHOOSE_PARAM("chooseStrategyParam", BotState.CHOOSE_STRATEGY_PARAM),
     EDIT_NOTIFICATION_EVENT("editNotificationEvent", BotState.START),
     CANCEL_NOTIFICATION_EVENT("cancelNotificationEvent", BotState.START),
     INVEST_ACCOUNT_ACTION("InvestAccount", BotState.INVEST_ACCOUNT_ACTION),
