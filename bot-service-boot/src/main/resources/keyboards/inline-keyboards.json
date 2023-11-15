@@ -1,0 +1,40 @@
+{
+  "STRATEGIES_LIST": {
+    "type": "dynamic-from-resource",
+    "max-column-size": 2,
+    "baseCallback": "strategy",
+    "keyboard": []
+  },
+  "EDIT_NOTIFICATION_EVENT": {
+    "type": "dynamic-fields",
+    "dynamic-fields": [ "editNotificationEvent", "cancelNotificationEvent" ],
+    "keyboard": [
+      [
+        { "type":  "dynamic-callback", "name": "editNotificationEvent", "baseCallback": "editNotificationEvent" },
+        { "type":  "dynamic-callback", "name": "cancelNotificationEvent", "baseCallback": "cancelNotificationEvent" }
+      ]
+    ]
+  },
+  "ACCOUNT_INFO": {
+    "type": "dynamic-conditions",
+    "condition": [ "isConnectedAccount" ],
+    "keyboard": [
+      [
+        { "type":  "dynamic-condition", "text":  "Подключить аккаунт", "callback":  "InvestAccount_connect", "condition": "isConnectedAccount!=true" }
+      ],
+      [
+        { "type":  "dynamic-condition", "text":  "Отключить аккаунт", "callback":  "InvestAccount_disconnect", "condition": "isConnectedAccount==true" }
+      ]
+    ]
+  },
+  "CHOOSE_TYPE_OF_CHANGE": {
+    "type": "static",
+    "keyboard": [
+      [
+        { "type": "static", "text":  "Стоимость", "callback":  "chooseTypeOfChange_cost" }
+      ], [
+        { "type":  "static", "text": "Процент", "callback": "chooseTypeOfChange_percentage" }
+      ]
+    ]
+  }
+}

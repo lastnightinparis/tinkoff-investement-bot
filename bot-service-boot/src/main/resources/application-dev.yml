@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    url: ${POSTGRES_SERVER:jdbc:postgresql://localhost:5435/db}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connectionTimeout: 30000
+      idleTimeout: 600000
+      maxLifetime: 1200000
+  jpa:
+    database: postgresql
+    show-sql: false
+    generate-ddl: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+app:
+  version: '@project.version@'
+  localeTag: ru-RU
+  mastersId: 403662618
+  bot:
+    name: ${BOT_NAME:tinkoff_investement_bot}
+    token: ${BOT_TOKEN:6720942538:AAEkyepqswgBAnDHG0pYOsg7XIkonPpf3AI}
+    webHookPath: ${BOT_WEBHOOK_PATH:https://ac35-93-92-200-189.ngrok-free.appp}
+

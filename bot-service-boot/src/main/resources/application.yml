@@ -1,0 +1,16 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: trading-bot
+  profiles:
+    group:
+      dev:
+      prod:
+
+logging:
+  level:
+    com.itmo.tinkoffinvestementbot: ${BOT_LOG_MODE:debug}
+    org.hibernate: info
+

@@ -16,6 +16,7 @@
         <module>domain</module>
         <module>get-stocks-service-boot</module>
         <module>orchestrator-service-boot</module>
+        <module>bot-service-boot</module>
     </modules>
 
     <properties>
