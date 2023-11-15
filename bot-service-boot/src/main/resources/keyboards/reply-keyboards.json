@@ -1,0 +1,51 @@
+{
+  "MAIN_MENU": {
+    "type": "static",
+    "selective": true,
+    "resized": true,
+    "oneTime": false,
+    "keyboard": [
+      [
+        { "type": "static", "text":  "Торги" },
+        { "type": "static", "text":  "Уведомления" }
+      ],
+      [
+        { "type": "static", "text":  "Аккаунт" },
+        { "type": "static", "text":  "Помощь" }
+      ]
+    ]
+  },
+  "TRADING_MENU": {
+    "type": "static",
+    "selective": true,
+    "resized": true,
+    "oneTime": false,
+    "keyboard": [
+      [
+        { "type": "static", "text":  "Начать торги" },
+        { "type": "static", "text":  "Список активных стратегий" }
+      ],
+      [
+        { "type": "static", "text":  "Список стратегий" }
+      ],
+      [
+        { "type": "static", "text":  "Назад" }
+      ]
+    ]
+  },
+  "EVENT_MENU": {
+    "type": "static",
+    "selective": true,
+    "resized": true,
+    "oneTime": false,
+    "keyboard": [
+      [
+        { "type": "static", "text":  "Подключить уведомление" },
+        { "type": "static", "text":  "Список уведомлений" }
+      ],
+      [
+        { "type": "static", "text":  "Назад" }
+      ]
+    ]
+  }
+}
