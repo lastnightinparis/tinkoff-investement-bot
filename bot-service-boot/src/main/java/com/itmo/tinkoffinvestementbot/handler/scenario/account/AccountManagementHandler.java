@@ -1,5 +1,6 @@
 package com.itmo.tinkoffinvestementbot.handler.scenario.account;
 
+import com.itmo.tinkoffinvestementbot.client.OrchestratorClient;
 import com.itmo.tinkoffinvestementbot.handler.registry.ResourceMessageRegistry;
 import com.itmo.tinkoffinvestementbot.handler.type.BotStateTypeHandler;
 import com.itmo.tinkoffinvestementbot.handler.update.CallbackUpdate;
@@ -24,6 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static org.telegram.telegrambots.meta.api.methods.ParseMode.MARKDOWN;
 
@@ -37,6 +40,7 @@ public class AccountManagementHandler implements CallbackUpdate, TextUpdate, Bot
     private final BotSenderService senderService;
     private final ResourceMessageRegistry messageRegistry;
     private final InlineKeyboardService inlineKeyboardService;
+    private final OrchestratorClient orchestratorClient;
 
     @Override
     public void handleCallback(User user, CallbackQuery callbackQuery) {
@@ -58,6 +62,7 @@ public class AccountManagementHandler implements CallbackUpdate, TextUpdate, Bot
                     }
                     case "disconnect" -> {
                         // TODO: отправить запрос на удаление токена
+                        orchestratorClient.deleteToken(user.getId());
                         editMessageText.setText(messageRegistry.getMessage("account.disconnect"));
                         user.setConnectedInvestAccount(false);
                         userService.save(user);
@@ -98,22 +103,20 @@ public class AccountManagementHandler implements CallbackUpdate, TextUpdate, Bot
                 sendMessage.setText(messageRegistry.getMessage("account.processing"));
                 String apiToken = message.getText();
                 // TODO: Отправить токен через CompletableFuture и получить ValidateTokenResponse
-                CompletableFuture.completedFuture(new ValidateTokenResponse("", true))
-                        .thenApply(response -> {
-                            SendMessage newMessage = new SendMessage();
-                            BeanUtils.copyProperties(sendMessage, newMessage);
-                            String messageText;
-                            if (response.isSuccess()) {
-                                messageText = messageRegistry.getMessage("account.success");
-                                user.setConnectedInvestAccount(true);
-                                userService.save(user);
-                            } else {
-                                messageText = messageRegistry.getMessage("account.fail");
-                            }
-                            newMessage.setText(messageText);
-                            return senderService.sendMessage(newMessage);
-                        }).join();
-                // Тут мб напутал)
+                final ValidateTokenResponse response = orchestratorClient.checkToken(user.getId(), apiToken);
+                SendMessage newMessage = new SendMessage();
+                BeanUtils.copyProperties(sendMessage, newMessage);
+                String messageText;
+                if (response.isSuccess()) {
+                    messageText = messageRegistry.getMessage("account.success");
+                    user.setConnectedInvestAccount(true);
+                    userService.save(user);
+                } else {
+                    messageText = messageRegistry.getMessage("account.fail");
+                }
+                newMessage.setText(messageText);
+
+                senderService.sendMessage(newMessage);
             }
             default -> log.warn("Unknown bot state - {}", user.getBotState());
         }

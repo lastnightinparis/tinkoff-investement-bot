@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.6-SNAPSHOT</version> <!-- Для docker-compose версии 2.23 spring стартует только на этой версии -->
+        <version>3.1.2</version> <!-- Для docker-compose версии 2.23 spring стартует только на этой версии -->
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -52,16 +52,16 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-simple</artifactId> <!-- Исключаемая реализация -->
-                </exclusion>
-                <exclusion>
-                    <groupId>ch.qos.logback</groupId>
-                    <artifactId>logback-classic</artifactId>
-                </exclusion>
-            </exclusions>
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.slf4j</groupId>-->
+<!--                    <artifactId>slf4j-simple</artifactId> &lt;!&ndash; Исключаемая реализация &ndash;&gt;-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>ch.qos.logback</groupId>-->
+<!--                    <artifactId>logback-classic</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
         </dependency>
 
         <dependency>
@@ -123,10 +123,11 @@
             <version>5.3.0</version>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.liquibase</groupId>-->
+<!--            <artifactId>liquibase-core</artifactId>-->
+<!--            <version>4.23.0</version>-->
+<!--        </dependency>-->
     </dependencies>
 
 </project>

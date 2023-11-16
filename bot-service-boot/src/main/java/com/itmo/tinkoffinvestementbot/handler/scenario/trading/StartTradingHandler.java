@@ -120,7 +120,7 @@ public class StartTradingHandler implements CallbackUpdate, TextUpdate, BotState
                     ));
                 } else {
                     // TODO: Отправить заявку на активацию стратегии
-                    ValidateTokenResponse response = new ValidateTokenResponse("Ошибка где-то", true);
+                    ValidateTokenResponse response = new ValidateTokenResponse(true);
                     if (response.isSuccess()) {
                         sendMessage.setText(messageRegistry.getMessage("trading.successCreatingOrder"));
                     } else {

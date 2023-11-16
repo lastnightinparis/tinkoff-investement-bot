@@ -1,3 +1,5 @@
+server:
+  port: 9995
 spring:
   datasource:
     url: ${POSTGRES_SERVER:jdbc:postgresql://localhost:5435/db}
@@ -28,5 +30,5 @@ app:
   bot:
     name: ${BOT_NAME:tinkoff_investement_bot}
     token: ${BOT_TOKEN:6720942538:AAEkyepqswgBAnDHG0pYOsg7XIkonPpf3AI}
-    webHookPath: ${BOT_WEBHOOK_PATH:https://ac35-93-92-200-189.ngrok-free.appp}
+    webHookPath: ${BOT_WEBHOOK_PATH:https://2056-178-64-118-93.ngrok.io}
 

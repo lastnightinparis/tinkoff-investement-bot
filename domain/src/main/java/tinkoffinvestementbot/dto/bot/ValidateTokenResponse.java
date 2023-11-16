@@ -1,14 +1,7 @@
 package tinkoffinvestementbot.dto.bot;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public class ValidateTokenResponse {
-
-    private boolean isSuccess;
+public record ValidateTokenResponse(@JsonProperty("isSuccess") boolean isSuccess) {
 }
