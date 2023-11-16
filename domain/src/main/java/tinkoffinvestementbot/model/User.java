@@ -9,10 +9,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-@Data
-@Accessors(fluent = true)
+/**
+ * Данные о пользователе Тинькофф API
+ */
 @Entity
 @Table(name = "users")
+@Data
+@Accessors(fluent = true)
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 public class User {
     @Id

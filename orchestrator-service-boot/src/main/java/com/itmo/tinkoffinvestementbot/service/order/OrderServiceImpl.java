@@ -1,5 +1,6 @@
 package com.itmo.tinkoffinvestementbot.service.order;
 
+import com.itmo.tinkoffinvestementbot.repository.TradeOrderRepository;
 import com.itmo.tinkoffinvestementbot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -15,8 +16,10 @@ import ru.tinkoff.piapi.core.InvestApi;
 public class OrderServiceImpl extends AbstractOrderServiceImpl {
 
     @Autowired
-    public OrderServiceImpl(UserRepository userRepository) {
-        super(userRepository);
+    public OrderServiceImpl(PostOrderConverter postOrderConverter,
+                            UserRepository userRepository,
+                            TradeOrderRepository tradeOrderRepository) {
+        super(postOrderConverter, userRepository, tradeOrderRepository);
     }
 
     @Override

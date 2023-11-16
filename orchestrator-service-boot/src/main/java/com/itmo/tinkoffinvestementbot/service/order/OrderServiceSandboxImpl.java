@@ -1,5 +1,6 @@
 package com.itmo.tinkoffinvestementbot.service.order;
 
+import com.itmo.tinkoffinvestementbot.repository.TradeOrderRepository;
 import com.itmo.tinkoffinvestementbot.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,13 @@ import static java.util.UUID.randomUUID;
 @Slf4j
 @Service
 @Profile("dev")
-public class SandboxOrderServiceImpl extends AbstractOrderServiceImpl {
+public class OrderServiceSandboxImpl extends AbstractOrderServiceImpl {
 
     @Autowired
-    public SandboxOrderServiceImpl(UserRepository userRepository) {
-        super(userRepository);
+    public OrderServiceSandboxImpl(PostOrderConverter postOrderConverter,
+                                   UserRepository userRepository,
+                                   TradeOrderRepository tradeOrderRepository) {
+        super(postOrderConverter, userRepository, tradeOrderRepository);
     }
 
     @Override
