@@ -1,6 +1,7 @@
 package com.itmo.model;
 
-import com.itmo.service.stratagies.AbstractTradeStrategy.TradeSignal;
+
+import tinkoffinvestementbot.dto.stratagies.TradeSignal;
 
 import java.util.LinkedList;
 import java.util.Queue;

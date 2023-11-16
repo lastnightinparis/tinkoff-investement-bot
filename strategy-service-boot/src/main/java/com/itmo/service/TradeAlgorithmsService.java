@@ -3,8 +3,7 @@ package com.itmo.service;
 import com.itmo.service.stratagies.MeanRevertingPairsTradeStrategyImpl;
 import com.itmo.service.stratagies.MovingAverageCrossStrategyImpl;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.ListUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tinkoffinvestementbot.dto.stratagies.RequestStrategyDto;
 import tinkoffinvestementbot.dto.stratagies.ResponseStrategyDto;
@@ -13,6 +12,7 @@ import tinkoffinvestementbot.model.strategies.StratagyType;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TradeAlgorithmsService {

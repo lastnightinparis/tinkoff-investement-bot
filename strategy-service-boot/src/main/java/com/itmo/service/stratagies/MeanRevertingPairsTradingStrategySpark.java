@@ -1,25 +1,27 @@
 package com.itmo.service.stratagies;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.expressions.Window;
 import org.apache.spark.sql.expressions.WindowSpec;
 import org.apache.spark.sql.functions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static org.apache.spark.sql.functions.lit;
 import static org.apache.spark.sql.functions.not;
 import static org.apache.spark.sql.functions.when;
 
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MeanRevertingPairsTradingStrategySpark {
-    private final SparkSession sparkSession = SparkSession.builder()
-            .appName("Mean Reverting Pairs Trading Strategy")
-            .master("local")
-            .getOrCreate();
+    @Autowired
+    private final SparkSession sparkSession;
     private Dataset<Row> stockData;
     private Long lookbackPeriod;
     private double entryThreshold;

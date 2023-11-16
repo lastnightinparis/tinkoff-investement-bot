@@ -7,10 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(classes = StrategyApplication.class)
+//@SpringBootTest(classes = StrategyApplication.class)
 class MeanRevertingPairsTradingStrategySparkTest {
-    @Autowired
-    MeanRevertingPairsTradingStrategySpark service;
+    //    @Autowired
+    MeanRevertingPairsTradingStrategySpark service = new MeanRevertingPairsTradingStrategySpark();
 
     @Test
     void calculateSignals() {
@@ -23,5 +23,11 @@ class MeanRevertingPairsTradingStrategySparkTest {
                 entryThreshold,
                 exitThreshold);
         service.calculateSignals();
+    }
+
+
+    public static void main(String[] args) {
+        MeanRevertingPairsTradingStrategySparkTest c = new MeanRevertingPairsTradingStrategySparkTest();
+        c.calculateSignals();
     }
 }

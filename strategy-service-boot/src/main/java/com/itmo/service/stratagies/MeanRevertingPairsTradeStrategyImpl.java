@@ -2,12 +2,15 @@ package com.itmo.service.stratagies;
 
 import jdk.jfr.Description;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tinkoffinvestementbot.dto.stratagies.TradeSignal;
 import tinkoffinvestementbot.model.strategies.TradeEvent;
 
 import java.util.List;
 import java.util.stream.IntStream;
+
+@Slf4j
 
 @Description("""
         Выбор пар акций для стратегии средневозвращающей торговли зависит от многих факторов, включая корреляцию,

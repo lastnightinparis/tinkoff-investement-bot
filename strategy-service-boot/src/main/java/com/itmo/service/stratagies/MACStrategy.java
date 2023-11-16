@@ -3,8 +3,8 @@ package com.itmo.service.stratagies;
 import com.itmo.model.Bars;
 import com.itmo.model.Event;
 import com.itmo.model.EventQueue;
+import tinkoffinvestementbot.dto.stratagies.TradeSignal;
 import tinkoffinvestementbot.model.strategies.TradeEvent;
-import com.itmo.service.stratagies.AbstractTradeStrategy.TradeSignal;
 import jdk.jfr.Description;
 
 import java.util.Date;
