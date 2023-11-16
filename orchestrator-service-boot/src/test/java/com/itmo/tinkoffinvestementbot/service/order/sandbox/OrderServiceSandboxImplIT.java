@@ -1,5 +1,6 @@
-package com.itmo.tinkoffinvestementbot.service.order;
+package com.itmo.tinkoffinvestementbot.service.order.sandbox;
 
+import com.itmo.tinkoffinvestementbot.service.order.OrderService;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,25 +19,26 @@ import static tinkoffinvestementbot.model.OrderStatus.WONT_EXECUTE;
 @SpringBootTest
 @ActiveProfiles("dev")
 class OrderServiceSandboxImplIT {
+    private static final Long USER_ID = 42069L;
 
     @Autowired
     private OrderService orderService;
 
     @Test
     void postBuyOrder() {
-        val result = orderService.sendOrder(new OrderDto(1L, "BBG006L8G4H1", 1L, OrderSide.BUY));
+        val result = orderService.sendOrder(new OrderDto(USER_ID, "BBG006L8G4H1", 1L, OrderSide.BUY));
         assertEquals(CREATED, result.status());
     }
 
     @Test
     void postSellOrder() {
-        val result = orderService.sendOrder(new OrderDto(1L, "BBG006L8G4H1", 1L, OrderSide.SELL));
+        val result = orderService.sendOrder(new OrderDto(USER_ID, "BBG006L8G4H1", 1L, OrderSide.SELL));
         assertEquals(CREATED, result.status());
     }
 
     @Test
     void postHoldOrder() {
-        val result = orderService.sendOrder(new OrderDto(1L, "BBG006L8G4H1", 1L, OrderSide.HOLD));
+        val result = orderService.sendOrder(new OrderDto(USER_ID, "BBG006L8G4H1", 1L, OrderSide.HOLD));
         assertEquals(WONT_EXECUTE, result.status());
     }
 

@@ -30,5 +30,6 @@ public class TradeOrder {
      * User
      */
     @ManyToOne(optional = false)
-    private User user;
+    @JoinColumn(name = "user_id")
+    private TinkoffUser tinkoffUser;
 }

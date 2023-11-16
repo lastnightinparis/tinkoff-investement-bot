@@ -1,7 +1,7 @@
 package com.itmo.tinkoffinvestementbot.service.order;
 
+import com.itmo.tinkoffinvestementbot.repository.TinkoffUserRepository;
 import com.itmo.tinkoffinvestementbot.repository.TradeOrderRepository;
-import com.itmo.tinkoffinvestementbot.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -16,18 +16,18 @@ import static tinkoffinvestementbot.model.OrderStatus.WONT_EXECUTE;
 
 @Slf4j
 @RequiredArgsConstructor
-abstract class AbstractOrderServiceImpl implements OrderService {
+public abstract class AbstractOrderServiceImpl implements OrderService {
 
     protected final PostOrderConverter postOrderConverter;
-    protected final UserRepository userRepository;
+    protected final TinkoffUserRepository tinkoffUserRepository;
     protected final TradeOrderRepository tradeOrderRepository;
 
-    abstract InvestApi getInvestApi(String token);
+    public abstract InvestApi getInvestApi(String token);
 
-    abstract PostOrderResponse postOrder(InvestApi investApi, String instrumentId, Long quantity, OrderDirection orderDirection, String accountId);
+    public abstract PostOrderResponse postOrder(InvestApi investApi, String instrumentId, Long quantity, OrderDirection orderDirection, String accountId);
 
     public OrderResult sendOrder(OrderDto orderDto) {
-        val user = userRepository.get(orderDto.userId());
+        val user = tinkoffUserRepository.get(orderDto.userId());
         val investApi = getInvestApi(user.token());
 
         val orderSide = orderDto.side();

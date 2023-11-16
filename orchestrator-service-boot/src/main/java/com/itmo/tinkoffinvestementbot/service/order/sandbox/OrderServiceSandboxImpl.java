@@ -1,7 +1,9 @@
-package com.itmo.tinkoffinvestementbot.service.order;
+package com.itmo.tinkoffinvestementbot.service.order.sandbox;
 
+import com.itmo.tinkoffinvestementbot.repository.TinkoffUserRepository;
 import com.itmo.tinkoffinvestementbot.repository.TradeOrderRepository;
-import com.itmo.tinkoffinvestementbot.repository.UserRepository;
+import com.itmo.tinkoffinvestementbot.service.order.AbstractOrderServiceImpl;
+import com.itmo.tinkoffinvestementbot.service.order.PostOrderConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -18,18 +20,18 @@ public class OrderServiceSandboxImpl extends AbstractOrderServiceImpl {
 
     @Autowired
     public OrderServiceSandboxImpl(PostOrderConverter postOrderConverter,
-                                   UserRepository userRepository,
+                                   TinkoffUserRepository tinkoffUserRepository,
                                    TradeOrderRepository tradeOrderRepository) {
-        super(postOrderConverter, userRepository, tradeOrderRepository);
+        super(postOrderConverter, tinkoffUserRepository, tradeOrderRepository);
     }
 
     @Override
-    InvestApi getInvestApi(String token) {
+    public InvestApi getInvestApi(String token) {
         return InvestApi.createSandbox(token);
     }
 
     @Override
-    PostOrderResponse postOrder(InvestApi investApi, String instrumentId, Long quantity, OrderDirection orderDirection, String accountId) {
+    public PostOrderResponse postOrder(InvestApi investApi, String instrumentId, Long quantity, OrderDirection orderDirection, String accountId) {
         if (investApi.getSandboxService().getPositionsSync(accountId).getMoneyCount() < 5_000) {
             investApi.getSandboxService().payIn(accountId, MoneyValue.newBuilder()
                     .setCurrency("RUB")

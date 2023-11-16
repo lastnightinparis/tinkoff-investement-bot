@@ -1,26 +1,43 @@
 package com.itmo.tinkoffinvestementbot.service;
 
-import com.itmo.tinkoffinvestementbot.repository.UserTokenRepository;
+import com.itmo.tinkoffinvestementbot.repository.TinkoffUserRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.exception.SQLGrammarException;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.stereotype.Service;
+import ru.tinkoff.piapi.contract.v1.AccountType;
 import ru.tinkoff.piapi.core.InvestApi;
 import ru.tinkoff.piapi.core.exception.ApiRuntimeException;
-import tinkoffinvestementbot.model.UserToken;
+import tinkoffinvestementbot.model.TinkoffUser;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TokenServiceImpl implements TokenService {
-    private final UserTokenRepository userTokenRepository;
+    private final TinkoffUserRepository userTokenRepository;
 
     @Override
     public boolean checkToken(Long userId, String token) {
-        final InvestApi sandbox = InvestApi.createSandbox(token);
+        val sandbox = InvestApi.createSandbox(token);
+        val accounts = sandbox.getSandboxService().getAccountsSync();
+        if (accounts.size() != 1) {
+            log.warn("Токен выпущен для нескольких счетов");
+            return false;
+        }
+
         try {
-            if (sandbox.getSandboxService().getAccountsSync().stream().findFirst().isEmpty()) {
-                final String account = sandbox.getSandboxService().openAccountSync();
-                userTokenRepository.save(new UserToken(userId, account));
+            val optionalAccount = accounts.stream()
+                    .filter(account -> account.hasOpenedDate() // счет открыт
+                            && !account.hasClosedDate() // счет не закрыт
+                            && account.getType() == AccountType.ACCOUNT_TYPE_TINKOFF // это обычный брокерский счет
+                    )
+                    .findFirst();
+
+            if (optionalAccount.isEmpty()) {
+                return false;
             }
+
+            userTokenRepository.save(new TinkoffUser(userId, optionalAccount.get().getId(), token));
             return true;
         } catch (ApiRuntimeException e) {
             return false;
