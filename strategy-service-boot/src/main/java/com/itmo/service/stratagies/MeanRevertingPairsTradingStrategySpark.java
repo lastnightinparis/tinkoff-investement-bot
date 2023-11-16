@@ -1,5 +1,6 @@
 package com.itmo.service.stratagies;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
@@ -8,30 +9,33 @@ import org.apache.spark.sql.expressions.WindowSpec;
 import org.apache.spark.sql.functions;
 import org.springframework.stereotype.Service;
 
-import static org.apache.spark.sql.functions.*;
+import static org.apache.spark.sql.functions.lit;
+import static org.apache.spark.sql.functions.not;
+import static org.apache.spark.sql.functions.when;
 
 @Service
+@RequiredArgsConstructor
 public class MeanRevertingPairsTradingStrategySpark {
-    private SparkSession spark;
+    private final SparkSession sparkSession = SparkSession.builder()
+            .appName("Mean Reverting Pairs Trading Strategy")
+            .master("local")
+            .getOrCreate();
     private Dataset<Row> stockData;
     private Long lookbackPeriod;
     private double entryThreshold;
     private double exitThreshold;
     private boolean inMarket = false;
 
-    public MeanRevertingPairsTradingStrategySpark() {
-    }
 
     public void setup(String stock1FilePath, String stock2FilePath, Long lookbackPeriod,
                       double entryThreshold, double exitThreshold) {
-        spark = SparkSession.builder().appName("Mean Reverting Pairs Trading Strategy").getOrCreate();
         this.lookbackPeriod = lookbackPeriod;
         this.entryThreshold = entryThreshold;
         this.exitThreshold = exitThreshold;
 
         // Load stock data into Spark DataFrames
-        Dataset<Row> stock1 = spark.read().option("header", "true").csv(stock1FilePath);
-        Dataset<Row> stock2 = spark.read().option("header", "true").csv(stock2FilePath);
+        Dataset<Row> stock1 = sparkSession.read().option("header", "true").csv(stock1FilePath);
+        Dataset<Row> stock2 = sparkSession.read().option("header", "true").csv(stock2FilePath);
 
         // Join the DataFrames on the date column and select only the closing prices
         stockData = stock1.join(stock2, stock1.col("date").equalTo(stock2.col("date")))
@@ -78,6 +82,6 @@ public class MeanRevertingPairsTradingStrategySpark {
         });
 
         // Stop the Spark session
-        spark.stop();
+        sparkSession.stop();
     }
 }

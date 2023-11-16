@@ -10,7 +10,7 @@ services:
       - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
       - SPARK_SSL_ENABLED=no
     ports:
-      - "8080:8080" # Spark Web UI
+      - "8095:8080" # Spark Web UI
       - "7077:7077" # Spark Master Port
 
   spark-worker:

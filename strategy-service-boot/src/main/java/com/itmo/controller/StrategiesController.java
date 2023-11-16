@@ -11,9 +11,9 @@ import tinkoffinvestementbot.dto.stratagies.ResponseStrategyDto;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(StratagiesController.ROOT)
-public class StratagiesController {
-    public static final String ROOT = "/stratagies";
+@RequestMapping(StrategiesController.ROOT)
+public class StrategiesController {
+    public static final String ROOT = "/strategies";
     private final TradeAlgorithmsService tradeAlgorithmsService;
 
     @PostMapping

@@ -3,6 +3,8 @@ package com.itmo.service.stratagies;
 import jdk.jfr.Description;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import tinkoffinvestementbot.dto.stratagies.TradeSignal;
+import tinkoffinvestementbot.model.strategies.TradeEvent;
 
 import java.util.List;
 import java.util.stream.IntStream;
@@ -20,8 +22,6 @@ public class MeanRevertingPairsTradeStrategyImpl implements AbstractTradeStrateg
     private String stock2Symbol;
     private List<Double> stock1Data;
     private List<Double> stock2Data;
-    private double entryThreshold;
-    private double exitThreshold;
     private Long quantity;
 
     @Override
@@ -46,13 +46,12 @@ public class MeanRevertingPairsTradeStrategyImpl implements AbstractTradeStrateg
         // Проверка условия входа
         if (Math.abs(lastSpread - meanSpread) > entryThreshold * stdDev) {
             // Решение о покупке или продаже будет зависеть от того, какая акция недооценена, а какая переоценена
-            String action = lastSpread > meanSpread ? "SELL" : "BUY";
             String stockSymbol = lastSpread > meanSpread ? stock1Symbol : stock2Symbol;
             quantity = 100L;
-            return new TradeSignal(action, stockSymbol, quantity); // Пример количества для сигнала, может быть любым
+            return new TradeSignal(TradeEvent.BUY, stockSymbol, quantity); // Пример количества для сигнала, может быть любым
         }
 
-        return null; // держать
+        return new TradeSignal(TradeEvent.HOLD, null, 0L);
     }
 
     @Override
@@ -77,33 +76,11 @@ public class MeanRevertingPairsTradeStrategyImpl implements AbstractTradeStrateg
         // Условие выхода обычно менее строгое, чем условие входа, что позволяет избежать ложных сигналов
         if (Math.abs(lastSpread - meanSpread) < exitThreshold) {
             // Сигнал на продажу или покупку зависит от первоначального сигнала входа
-            String action = "SELL"; // Это предполагает, что первоначальный вход был на покупку
             String stockSymbol = stock1Symbol; // или stock2Symbol, в зависимости от ситуации
-            return new TradeSignal(action, stockSymbol, quantity);
+            return new TradeSignal(TradeEvent.SELL, stockSymbol, quantity);
         }
 
-        return null; // держать
-    }
-
-    public void setStockPair(String stock1Symbol, String stock2Symbol) {
-        this.stock1Symbol = stock1Symbol;
-        this.stock2Symbol = stock2Symbol;
-    }
-
-    @Override
-    public void setHistoricalData(List<Double> stock1Data, List<Double> stock2Data) {
-        this.stock1Data = stock1Data;
-        this.stock2Data = stock2Data;
-    }
-
-    @Override
-    public void setEntryThreshold(double entryThreshold) {
-        this.entryThreshold = entryThreshold;
-    }
-
-    @Override
-    public void setExitThreshold(double exitThreshold) {
-        this.exitThreshold = exitThreshold;
+        return new TradeSignal(TradeEvent.HOLD, null, 0L);
     }
 
     private double calculateStandardDeviation(List<Double> values, double mean) {

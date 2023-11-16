@@ -2,6 +2,7 @@ package com.itmo.configuration;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.sql.SparkSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +17,7 @@ public class SparkConfig {
 
     @Bean
     public SparkConf sparkConf() {
-        System.setProperty("SPARK_LOCAL_IP", "192.0.0.7");
+        System.setProperty("SPARK_LOCAL_IP", "localhost");
         return new SparkConf()
                 .setAppName(appName)
                 .setMaster(masterUri);

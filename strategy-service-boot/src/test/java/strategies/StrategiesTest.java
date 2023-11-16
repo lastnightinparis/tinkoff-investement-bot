@@ -1,15 +1,19 @@
 package strategies;
 
+import com.itmo.StrategyApplication;
 import com.itmo.service.stratagies.MeanRevertingPairsTradingStrategySpark;
-import org.junit.Test;
+import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 
 @SpringBootTest
-public class StratagiesTest {
-    MeanRevertingPairsTradingStrategySpark service = new MeanRevertingPairsTradingStrategySpark();
+@RequiredArgsConstructor
+class StrategiesTest {
+    MeanRevertingPairsTradingStrategySpark service;
 
     @Test
-    public void sparkTest() {
+    void sparkTest() {
         Long lookbackPeriod = 30L; // Example lookback period
         double entryThreshold = 2.0; // Example entry Z-score threshold
         double exitThreshold = 1.0; // Example exit Z-score threshold
