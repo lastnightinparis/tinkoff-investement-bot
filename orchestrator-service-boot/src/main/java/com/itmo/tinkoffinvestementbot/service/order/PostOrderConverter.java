@@ -15,17 +15,8 @@ import static java.util.Objects.isNull;
 
 @Component
 public class PostOrderConverter implements Converter<PostOrderResponse, OrderResult> {
-    @Override
-    @NonNull
-    public OrderResult convert(PostOrderResponse postOrderResponse) {
-        return new OrderResult(postOrderResponse.getOrderId(),
-                OrderStatus.getByExecutionReportStatus(postOrderResponse.getExecutionReportStatus()),
-                postOrderResponse.getLotsExecuted(),
-                convertMoneyValue(postOrderResponse.getExecutedCommission()),
-                convertMoneyValue(postOrderResponse.getExecutedOrderPrice()));
-    }
 
-    private double convertMoneyValue(MoneyValue value) {
+    public static double convertMoneyValue(MoneyValue value) {
         if (isNull(value)) {
             return 0.;
         }
@@ -34,5 +25,15 @@ public class PostOrderConverter implements Converter<PostOrderResponse, OrderRes
                 .add(BigDecimal.valueOf(value.getNano(), 9))
                 .setScale(2, RoundingMode.HALF_UP)
                 .doubleValue();
+    }
+
+    @Override
+    @NonNull
+    public OrderResult convert(PostOrderResponse postOrderResponse) {
+        return new OrderResult(postOrderResponse.getOrderId(),
+                OrderStatus.getByExecutionReportStatus(postOrderResponse.getExecutionReportStatus()),
+                postOrderResponse.getLotsExecuted(),
+                convertMoneyValue(postOrderResponse.getExecutedCommission()),
+                convertMoneyValue(postOrderResponse.getExecutedOrderPrice()));
     }
 }

@@ -4,6 +4,47 @@ databaseChangeLog:
       author: Liquibase
       changes:
         - createTable:
+            tableName: tinkoff_users
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: account_id
+                  type: varchar(64)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: token
+                  type: varchar(128)
+                  constraints:
+                    nullable: true
+  - changeSet:
+      id: 2
+      author: Liquibase
+      comment: "Add dummy user"
+      changes:
+        - insert:
+            tableName: tinkoff_users
+            columns:
+              - column:
+                  name: id
+                  value: 42069
+              - column:
+                  name: token
+                  value: "t.AdUGgkpyAismjr9vWdDDfaIZL-FMt6lxkDd42RfRrMQNX29J44E8ox5g2YjVKdUoGgNuRKnj5s36qQuUFEvBRw"
+      rollback:
+        - delete:
+            tableName: users
+            where: id = 42069
+  - changeSet:
+      id: 3
+      author: Liquibase
+      changes:
+        - createTable:
             tableName: trade_orders
             columns:
               - column:
@@ -18,19 +59,3 @@ databaseChangeLog:
               - column:
                   name: user_id
                   type: BIGINT
-  - changeSet:
-      id: 2
-      author: Liquibase
-      changes:
-        - createTable:
-            tableName: user_token
-            columns:
-              - column:
-                  name: id
-                  type: bigserial
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: token
-                  type: varchar(36)
