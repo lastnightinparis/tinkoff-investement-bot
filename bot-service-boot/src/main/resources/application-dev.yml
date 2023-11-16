@@ -16,7 +16,7 @@ spring:
     generate-ddl: false
     open-in-view: false
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     properties:
       dialect: org.hibernate.dialect.PostgreSQLDialect
   flyway:
