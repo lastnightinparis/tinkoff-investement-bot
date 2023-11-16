@@ -29,19 +29,19 @@ public class SparkConfig {
     }
 
     @Bean
-    public JavaSparkContext javaSparkContext() {
+    public JavaSparkContext javaSparkContext(SparkConf sparkConf) {
         log.info("JavaSparkContext Bean");
-        return new JavaSparkContext(sparkConf());
+        return new JavaSparkContext(sparkConf);
     }
 
     @Bean
-    public SparkSession sparkSession() {
+    public SparkSession sparkSession(JavaSparkContext javaSparkContext) {
         log.info("SparkSession Bean");
         return SparkSession
                 .builder()
                 .appName(appName)
-                .sparkContext(javaSparkContext().sc())
-                .config(javaSparkContext().getConf())
+                .sparkContext(javaSparkContext.sc())
+                .config(javaSparkContext.getConf())
                 .getOrCreate();
     }
 }

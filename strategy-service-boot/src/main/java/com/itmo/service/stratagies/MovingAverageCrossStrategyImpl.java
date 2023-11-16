@@ -1,7 +1,7 @@
 package com.itmo.service.stratagies;
 
-import tinkoffinvestementbot.dto.stratagies.TradeSignal;
-import tinkoffinvestementbot.model.strategies.TradeEvent;
+import com.itmo.dto.TradeEvent;
+import com.itmo.dto.TradeSignal;
 import jdk.jfr.Description;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,23 +1,16 @@
 package com.itmo.service.stratagies;
 
-import jdk.jfr.Description;
+import com.itmo.dto.TradeEvent;
+import com.itmo.dto.TradeSignal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import tinkoffinvestementbot.dto.stratagies.TradeSignal;
-import tinkoffinvestementbot.model.strategies.TradeEvent;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Slf4j
-
-@Description("""
-        Выбор пар акций для стратегии средневозвращающей торговли зависит от многих факторов, включая корреляцию,
-        коинтеграцию и ликвидность активов. В общем случае, для тестирования стратегии торговли парами акций,
-        вы хотите выбрать акции, которые имеют историческую тенденцию двигаться вместе. Это обычно акции компаний
-        в одной отрасли или схожего бизнеса.
-        """)
 @Service
 @RequiredArgsConstructor
 public class MeanRevertingPairsTradeStrategyImpl implements AbstractTradeStrategy {
@@ -37,7 +30,7 @@ public class MeanRevertingPairsTradeStrategyImpl implements AbstractTradeStrateg
         List<Double> spread = IntStream.range(0, stock1Data.size())
                 .mapToDouble(i -> stock1Data.get(i) - stock2Data.get(i))
                 .boxed()
-                .toList();
+                .collect(Collectors.toList());
 
         // Расчет среднего спреда и стандартного отклонения
         double meanSpread = spread.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
@@ -67,7 +60,7 @@ public class MeanRevertingPairsTradeStrategyImpl implements AbstractTradeStrateg
         List<Double> spread = IntStream.range(0, stock1Data.size())
                 .mapToDouble(i -> stock1Data.get(i) - stock2Data.get(i))
                 .boxed()
-                .toList();
+                .collect(Collectors.toList());
 
         // Расчет среднего спреда
         double meanSpread = spread.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);

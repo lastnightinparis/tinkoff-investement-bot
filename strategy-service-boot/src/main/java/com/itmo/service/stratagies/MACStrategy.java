@@ -1,10 +1,10 @@
 package com.itmo.service.stratagies;
 
+import com.itmo.dto.TradeEvent;
+import com.itmo.dto.TradeSignal;
 import com.itmo.model.Bars;
 import com.itmo.model.Event;
 import com.itmo.model.EventQueue;
-import tinkoffinvestementbot.dto.stratagies.TradeSignal;
-import tinkoffinvestementbot.model.strategies.TradeEvent;
 import jdk.jfr.Description;
 
 import java.util.Date;
@@ -23,25 +23,25 @@ public class MACStrategy {
 
     public TradeSignal calculateSignals(Event event) {
         if (event.equals(Event.MARKET)) {
-                List<Double> barValues = bars.getLatestBarValues(symbol, "adj_close", longWindow);
-                Date barDate = bars.getLatestBarDateTime(symbol);
+            List<Double> barValues = bars.getLatestBarValues(symbol, "adj_close", longWindow);
+            Date barDate = bars.getLatestBarDateTime(symbol);
 
-                if (barValues != null && !barValues.isEmpty()) {
-                    double shortSMA = calculateSMA(barValues, shortWindow);
-                    double longSMA = calculateSMA(barValues, longWindow);
+            if (barValues != null && !barValues.isEmpty()) {
+                double shortSMA = calculateSMA(barValues, shortWindow);
+                double longSMA = calculateSMA(barValues, longWindow);
 
-                    if (shortSMA > longSMA && bought.get(symbol).equals("OUT")) {
-                        System.out.println("LONG: " + barDate);
-                        TradeSignal signal = new TradeSignal(TradeEvent.LONG, symbol, 1L);
-                        events.put(signal);
-                        bought.put(symbol, "LONG");
-                    } else if (shortSMA < longSMA && bought.get(symbol).equals("LONG")) {
-                        System.out.println("SHORT: " + barDate);
-                        TradeSignal signal = new TradeSignal(TradeEvent.EXIT, symbol, 1L);
-                        events.put(signal);
-                        bought.put(symbol, "OUT");
-                    }
+                if (shortSMA > longSMA && bought.get(symbol).equals("OUT")) {
+                    System.out.println("LONG: " + barDate);
+                    TradeSignal signal = new TradeSignal(TradeEvent.LONG, symbol, 1L);
+                    events.put(signal);
+                    bought.put(symbol, "LONG");
+                } else if (shortSMA < longSMA && bought.get(symbol).equals("LONG")) {
+                    System.out.println("SHORT: " + barDate);
+                    TradeSignal signal = new TradeSignal(TradeEvent.EXIT, symbol, 1L);
+                    events.put(signal);
+                    bought.put(symbol, "OUT");
                 }
+            }
         }
         return new TradeSignal(TradeEvent.HOLD, symbol, 1L);
     }

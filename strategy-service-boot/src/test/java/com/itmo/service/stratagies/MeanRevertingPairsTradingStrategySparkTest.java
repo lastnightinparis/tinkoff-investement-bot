@@ -1,16 +1,17 @@
 package com.itmo.service.stratagies;
 
 import com.itmo.StrategyApplication;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-//@SpringBootTest(classes = StrategyApplication.class)
+@Disabled
+@SpringBootTest(classes = StrategyApplication.class)
 class MeanRevertingPairsTradingStrategySparkTest {
-    //    @Autowired
-    MeanRevertingPairsTradingStrategySpark service = new MeanRevertingPairsTradingStrategySpark();
+
+    @Autowired
+    MeanRevertingPairsTradingStrategySpark service;
 
     @Test
     void calculateSignals() {
