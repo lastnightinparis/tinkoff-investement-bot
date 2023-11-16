@@ -5,19 +5,24 @@
     "baseCallback": "strategy",
     "keyboard": []
   },
+  "STRATEGIES_WIKI_LIST": {
+    "type": "dynamic-from-resource",
+    "max-column-size": 2,
+    "baseCallback": "wikiStrategy",
+    "keyboard": []
+  },
   "STRATEGIES_PARAM_LIST": {
     "type": "dynamic-from-resource",
     "max-column-size": 2,
     "baseCallback": "chooseStrategyParam",
     "keyboard": []
   },
-  "EDIT_NOTIFICATION_EVENT": {
+  "EDIT_TRADING_EVENT": {
     "type": "dynamic-fields",
-    "dynamic-fields": [ "editNotificationEvent", "cancelNotificationEvent" ],
+    "dynamic-fields": [ "cancelTradingEvent" ],
     "keyboard": [
       [
-        { "type":  "dynamic-callback", "name": "editNotificationEvent", "baseCallback": "editNotificationEvent" },
-        { "type":  "dynamic-callback", "name": "cancelNotificationEvent", "baseCallback": "cancelNotificationEvent" }
+        { "type":  "dynamic-callback", "name": "cancelTradingEvent", "baseCallback": "cancelTradingEvent" }
       ]
     ]
   },

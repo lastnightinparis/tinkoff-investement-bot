@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 public enum CallbackType {
 
     STRATEGY("strategy", BotState.CHOOSE_STRATEGY_ACTION),
+    STRATEGY_WIKI("wikiStrategy", BotState.STRATEGY_WIKI),
     CHOOSE_PARAM("chooseStrategyParam", BotState.CHOOSE_STRATEGY_PARAM),
     EDIT_NOTIFICATION_EVENT("editNotificationEvent", BotState.START),
     CANCEL_NOTIFICATION_EVENT("cancelNotificationEvent", BotState.START),

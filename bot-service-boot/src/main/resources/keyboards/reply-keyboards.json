@@ -6,8 +6,7 @@
     "oneTime": false,
     "keyboard": [
       [
-        { "type": "static", "text":  "Торги" },
-        { "type": "static", "text":  "Уведомления" }
+        { "type": "static", "text":  "Торги" }
       ],
       [
         { "type": "static", "text":  "Аккаунт" },
