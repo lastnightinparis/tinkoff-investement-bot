@@ -9,10 +9,11 @@ databaseChangeLog:
               - column:
                   name: id
                   type: BIGINT
-                  autoIncrement: true
+                  autoIncrement: true # TODO: брать айди из таблички Марка либо перекатиться на его табличку
                   constraints:
                     primaryKey: true
                     nullable: false
+              # TODO: Грохнуть
               - column:
                   name: telegram_chat_id
                   type: BIGINT
@@ -47,3 +48,22 @@ databaseChangeLog:
         - delete:
             tableName: users
             where: telegram_chat_id in (69420)
+  - changeSet:
+      id: 3
+      author: Liquibase
+      changes:
+        - createTable:
+            tableName: trade_orders
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(28)
+              - column:
+                  name: user_id
+                  type: BIGINT

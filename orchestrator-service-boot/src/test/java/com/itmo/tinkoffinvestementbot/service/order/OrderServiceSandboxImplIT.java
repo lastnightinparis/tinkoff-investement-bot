@@ -8,15 +8,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import tinkoffinvestementbot.dto.OrderDto;
-import tinkoffinvestementbot.model.OrderResult;
 import tinkoffinvestementbot.model.OrderSide;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static tinkoffinvestementbot.model.OrderStatus.CREATED;
+import static tinkoffinvestementbot.model.OrderStatus.WONT_EXECUTE;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles("dev")
-class SandboxOrderServiceImplIT {
+class OrderServiceSandboxImplIT {
 
     @Autowired
     private OrderService orderService;
@@ -24,19 +25,19 @@ class SandboxOrderServiceImplIT {
     @Test
     void postBuyOrder() {
         val result = orderService.sendOrder(new OrderDto(1L, "BBG006L8G4H1", 1L, OrderSide.BUY));
-        assertEquals(OrderResult.Status.CREATED, result.status());
+        assertEquals(CREATED, result.status());
     }
 
     @Test
     void postSellOrder() {
         val result = orderService.sendOrder(new OrderDto(1L, "BBG006L8G4H1", 1L, OrderSide.SELL));
-        assertEquals(OrderResult.Status.CREATED, result.status());
+        assertEquals(CREATED, result.status());
     }
 
     @Test
     void postHoldOrder() {
         val result = orderService.sendOrder(new OrderDto(1L, "BBG006L8G4H1", 1L, OrderSide.HOLD));
-        assertEquals(OrderResult.Status.WONT_EXECUTE, result.status());
+        assertEquals(WONT_EXECUTE, result.status());
     }
 
 }
