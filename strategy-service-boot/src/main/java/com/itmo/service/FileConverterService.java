@@ -15,7 +15,7 @@ public class FileConverterService {
      * @return List of closing prices.
      * @throws IOException If an I/O error occurs opening the file.
      */
-    public List<Double> convertCsvToPriceList(String csvFilePath) throws IOException {
+    public static List<Double> convertCsvToPriceList(String csvFilePath) throws IOException {
         // Чтение всех строк файла
         List<String> lines = Files.readAllLines(Path.of(csvFilePath));
 

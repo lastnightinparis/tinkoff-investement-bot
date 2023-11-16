@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 @Slf4j
-
 @Description("""
         Выбор пар акций для стратегии средневозвращающей торговли зависит от многих факторов, включая корреляцию,
         коинтеграцию и ликвидность активов. В общем случае, для тестирования стратегии торговли парами акций,
@@ -26,6 +25,13 @@ public class MeanRevertingPairsTradeStrategyImpl implements AbstractTradeStrateg
     private List<Double> stock1Data;
     private List<Double> stock2Data;
     private Long quantity;
+
+    public void setup(List<Double> stock1Data, List<Double> stock2Data, String stock1Symbol, String stock2Symbol) {
+        this.stock1Data = stock1Data;
+        this.stock2Data = stock2Data;
+        this.stock1Symbol = stock1Symbol;
+        this.stock2Symbol = stock2Symbol;
+    }
 
     @Override
     public TradeSignal checkForEntry() {
