@@ -4,6 +4,9 @@ import com.itmo.tinkoffinvestementbot.config.RestConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ru.tinkoff.piapi.contract.v1.OrderDirection;
@@ -26,8 +29,11 @@ public class OrderNotificationServiceClient {
         val notification = new NotificationDto(user.id(), createMessage(orderStatus, orderState));
         log.info("Отправляем сообщение \"{}\"", notification.message());
 
-//        val resourceUrl = String.join("/", restConfig.getBotUrl(), "notify");
-//        restTemplate.postForObject(resourceUrl, notification, JsonNode.class);
+        val resourceUrl = String.join("/", restConfig.getBotUrl(), "event/trading");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        val entity = new HttpEntity<>(notification, headers);
+        restTemplate.postForLocation(resourceUrl, entity);
     }
 
     private String getDirection(OrderState orderState) {
@@ -38,7 +44,7 @@ public class OrderNotificationServiceClient {
 
     private String createMessage(OrderStatus orderStatus, OrderState order) {
         val direction = getDirection(order);
-        return switch (orderStatus) {
+        var message = switch (orderStatus) {
             case CREATED ->
                     String.format("Отправили брокеру поручение на %s бумаги %s.\nСумма: %s.\nКоличество лотов: %s",
                             direction,
@@ -60,5 +66,7 @@ public class OrderNotificationServiceClient {
             case REJECTED -> "Поручение отклонили на стороне биржи";
             default -> "Не смогли подать поручение. Свяжитесь с нашим специалистом по горячей линии 8-800-555-35-35";
         };
+
+        return message.replace(".", "\\.");
     }
 }

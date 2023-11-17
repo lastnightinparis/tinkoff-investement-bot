@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
     <configuration default="false" name="Run Telegram Bot" type="Application" factoryName="Application">
         <envs>
-            <env name="BOT_WEBHOOK_PATH" value="https://dfae-109-252-15-231.ngrok-free.app"/>
+            <env name="BOT_WEBHOOK_PATH" value="https://507e-109-252-15-231.ngrok-free.app"/>
         </envs>
         <option name="MAIN_CLASS_NAME" value="com.itmo.tinkoffinvestementbot.BotServiceBootApplication"/>
         <module name="bot-service-boot"/>

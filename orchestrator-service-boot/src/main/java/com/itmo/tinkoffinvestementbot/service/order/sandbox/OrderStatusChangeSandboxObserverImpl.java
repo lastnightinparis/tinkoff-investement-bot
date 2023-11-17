@@ -35,12 +35,12 @@ public class OrderStatusChangeSandboxObserverImpl implements OrderStatusChangeOb
                     var relevantOrder = api.getSandboxService().getOrderStateSync(user.accountId(), dbOrder.id());
                     var relevantStatus = OrderStatus.getByExecutionReportStatus(relevantOrder.getExecutionReportStatus());
                     if (relevantStatus != dbOrder.status()) {
+                        // отправляем уведомление
+                        notificationClient.notify(user, relevantStatus, relevantOrder);
+
                         // сохраняем статус в БД
                         dbOrder.status(relevantStatus);
                         tradeOrderRepository.save(dbOrder);
-
-                        // отправляем уведомление
-                        notificationClient.notify(user, relevantStatus, relevantOrder);
                     }
                 });
     }
