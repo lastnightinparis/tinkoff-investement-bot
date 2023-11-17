@@ -6,11 +6,7 @@ import com.itmo.service.stratagies.MovingAverageCrossStrategyImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import tinkoffinvestementbot.dto.stratagies.RequestStrategyDto;
-import tinkoffinvestementbot.dto.stratagies.ResponseStrategyDto;
-import tinkoffinvestementbot.dto.stratagies.StockData;
-import tinkoffinvestementbot.dto.stratagies.StrategyDto;
-import tinkoffinvestementbot.dto.stratagies.TradeSignal;
+import tinkoffinvestementbot.dto.strategies.*;
 import tinkoffinvestementbot.model.strategies.StratagyType;
 
 import java.util.List;

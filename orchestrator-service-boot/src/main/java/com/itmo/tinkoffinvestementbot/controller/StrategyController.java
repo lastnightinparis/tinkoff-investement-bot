@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import tinkoffinvestementbot.dto.stratagies.RequestStrategyDto;
-import tinkoffinvestementbot.dto.stratagies.ResponseStrategyDto;
-import tinkoffinvestementbot.dto.stratagies.RunStrategyRequestDto;
+import tinkoffinvestementbot.dto.strategies.RequestStrategyDto;
+import tinkoffinvestementbot.dto.strategies.ResponseStrategyDto;
+import tinkoffinvestementbot.dto.strategies.RunStrategyRequestDto;
 
 import java.util.List;
 

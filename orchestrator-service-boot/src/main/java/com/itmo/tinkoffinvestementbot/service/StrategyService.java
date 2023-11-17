@@ -1,8 +1,8 @@
 package com.itmo.tinkoffinvestementbot.service;
 
-import tinkoffinvestementbot.dto.stratagies.RequestStrategyDto;
-import tinkoffinvestementbot.dto.stratagies.ResponseStrategyDto;
-import tinkoffinvestementbot.dto.stratagies.RunStrategyRequestDto;
+import tinkoffinvestementbot.dto.strategies.RequestStrategyDto;
+import tinkoffinvestementbot.dto.strategies.ResponseStrategyDto;
+import tinkoffinvestementbot.dto.strategies.RunStrategyRequestDto;
 
 import java.util.List;
 

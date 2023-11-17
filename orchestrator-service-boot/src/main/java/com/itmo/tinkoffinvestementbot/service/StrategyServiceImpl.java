@@ -3,9 +3,9 @@ package com.itmo.tinkoffinvestementbot.service;
 import com.itmo.tinkoffinvestementbot.service.client.StrategyServiceClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import tinkoffinvestementbot.dto.stratagies.RequestStrategyDto;
-import tinkoffinvestementbot.dto.stratagies.ResponseStrategyDto;
-import tinkoffinvestementbot.dto.stratagies.RunStrategyRequestDto;
+import tinkoffinvestementbot.dto.strategies.RequestStrategyDto;
+import tinkoffinvestementbot.dto.strategies.ResponseStrategyDto;
+import tinkoffinvestementbot.dto.strategies.RunStrategyRequestDto;
 
 import java.util.List;
 

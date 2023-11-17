@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import tinkoffinvestementbot.dto.EventDto;
 import tinkoffinvestementbot.dto.OrderDto;
-import tinkoffinvestementbot.dto.stratagies.RequestStrategyDto;
-import tinkoffinvestementbot.dto.stratagies.ResponseStrategyDto;
-import tinkoffinvestementbot.dto.stratagies.RunStrategyRequestDto;
+import tinkoffinvestementbot.dto.strategies.RequestStrategyDto;
+import tinkoffinvestementbot.dto.strategies.ResponseStrategyDto;
+import tinkoffinvestementbot.dto.strategies.RunStrategyRequestDto;
 
 import javax.annotation.Nullable;
 import java.util.List;

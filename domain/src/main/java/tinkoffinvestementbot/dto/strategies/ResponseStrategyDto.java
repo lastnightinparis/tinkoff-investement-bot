@@ -1,6 +1,5 @@
-package tinkoffinvestementbot.dto.stratagies;
+package tinkoffinvestementbot.dto.strategies;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public record ResponseStrategyDto(

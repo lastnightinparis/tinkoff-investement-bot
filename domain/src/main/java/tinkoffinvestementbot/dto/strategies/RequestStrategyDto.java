@@ -1,8 +1,6 @@
-package tinkoffinvestementbot.dto.stratagies;
+package tinkoffinvestementbot.dto.strategies;
 
 import tinkoffinvestementbot.model.strategies.StratagyType;
-
-import java.util.Map;
 
 public record RequestStrategyDto(
         StratagyType strategyName,

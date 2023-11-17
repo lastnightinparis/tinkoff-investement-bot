@@ -1,4 +1,4 @@
-package tinkoffinvestementbot.dto.stratagies;
+package tinkoffinvestementbot.dto.strategies;
 
 import java.util.List;
 

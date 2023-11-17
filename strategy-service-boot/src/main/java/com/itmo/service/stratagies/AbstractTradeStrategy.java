@@ -1,6 +1,6 @@
 package com.itmo.service.stratagies;
 
-import tinkoffinvestementbot.dto.stratagies.TradeSignal;
+import tinkoffinvestementbot.dto.strategies.TradeSignal;
 
 public interface AbstractTradeStrategy {
     double entryThreshold = 10;

@@ -1,8 +1,6 @@
-package tinkoffinvestementbot.dto.stratagies;
+package tinkoffinvestementbot.dto.strategies;
 
 import jdk.jfr.Description;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import tinkoffinvestementbot.model.strategies.TradeEvent;
 
 @Description("""

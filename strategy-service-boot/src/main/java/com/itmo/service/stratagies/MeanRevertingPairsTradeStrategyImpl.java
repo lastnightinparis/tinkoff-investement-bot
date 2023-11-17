@@ -4,7 +4,7 @@ import jdk.jfr.Description;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import tinkoffinvestementbot.dto.stratagies.TradeSignal;
+import tinkoffinvestementbot.dto.strategies.TradeSignal;
 import tinkoffinvestementbot.model.strategies.TradeEvent;
 
 import java.util.List;
