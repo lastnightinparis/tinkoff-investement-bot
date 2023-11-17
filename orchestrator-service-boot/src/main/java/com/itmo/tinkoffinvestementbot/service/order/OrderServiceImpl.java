@@ -1,7 +1,7 @@
 package com.itmo.tinkoffinvestementbot.service.order;
 
+import com.itmo.tinkoffinvestementbot.repository.TinkoffUserRepository;
 import com.itmo.tinkoffinvestementbot.repository.TradeOrderRepository;
-import com.itmo.tinkoffinvestementbot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -17,18 +17,18 @@ public class OrderServiceImpl extends AbstractOrderServiceImpl {
 
     @Autowired
     public OrderServiceImpl(PostOrderConverter postOrderConverter,
-                            UserRepository userRepository,
+                            TinkoffUserRepository tinkoffUserRepository,
                             TradeOrderRepository tradeOrderRepository) {
-        super(postOrderConverter, userRepository, tradeOrderRepository);
+        super(postOrderConverter, tinkoffUserRepository, tradeOrderRepository);
     }
 
     @Override
-    InvestApi getInvestApi(String token) {
+    public InvestApi getInvestApi(String token) {
         return InvestApi.create(token);
     }
 
     @Override
-    PostOrderResponse postOrder(InvestApi investApi, String instrumentId, Long quantity, OrderDirection orderDirection, String accountId) {
+    public PostOrderResponse postOrder(InvestApi investApi, String instrumentId, Long quantity, OrderDirection orderDirection, String accountId) {
         return investApi.getOrdersService().postOrderSync(instrumentId,
                 quantity,
                 Quotation.getDefaultInstance(),

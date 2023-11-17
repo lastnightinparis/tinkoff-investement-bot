@@ -1,6 +1,7 @@
-package com.itmo.tinkoffinvestementbot.service.order;
+package com.itmo.tinkoffinvestementbot.service.order.sandbox;
 
 import com.itmo.tinkoffinvestementbot.repository.TradeOrderRepository;
+import com.itmo.tinkoffinvestementbot.service.order.OrderStatusChangeObserver;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +15,17 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles("dev")
-class OrderStatusObserverIT {
+class OrderStatusChangeSandboxObserverImplIT {
 
     @Autowired
-    private OrderStatusObserver orderStatusObserver;
+    private OrderStatusChangeObserver observer;
 
     @SpyBean
     private TradeOrderRepository tradeOrderRepository;
 
     @Test
     void checkOrdersStatus() {
-        orderStatusObserver.checkOrdersStatus();
+        observer.checkOrdersStatus();
 
         verify(tradeOrderRepository).getNewOrders();
     }

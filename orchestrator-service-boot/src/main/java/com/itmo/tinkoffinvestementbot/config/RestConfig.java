@@ -8,5 +8,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class RestConfig {
     private String stockServiceUrl;
     private String strategyServiceUrl;
-    private String orderServiceUrl;
+    private String botUrl;
 }

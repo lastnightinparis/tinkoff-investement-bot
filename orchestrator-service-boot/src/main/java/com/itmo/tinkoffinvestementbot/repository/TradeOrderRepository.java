@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import tinkoffinvestementbot.model.OrderResult;
+import tinkoffinvestementbot.model.TinkoffUser;
 import tinkoffinvestementbot.model.TradeOrder;
-import tinkoffinvestementbot.model.User;
 
 import java.util.List;
 
@@ -14,11 +14,11 @@ import java.util.List;
 public interface TradeOrderRepository extends JpaRepository<TradeOrder, String> {
 
     @Transactional
-    default TradeOrder save(OrderResult orderResult, User user) {
+    default TradeOrder save(OrderResult orderResult, TinkoffUser tinkoffUser) {
         return this.save(TradeOrder.builder()
                 .id(orderResult.id())
                 .status(orderResult.status())
-                .user(user)
+                .tinkoffUser(tinkoffUser)
                 .build());
     }
 
