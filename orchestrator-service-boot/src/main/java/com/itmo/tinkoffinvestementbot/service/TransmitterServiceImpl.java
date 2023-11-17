@@ -4,10 +4,9 @@ import com.itmo.tinkoffinvestementbot.service.client.StockServiceClient;
 import com.itmo.tinkoffinvestementbot.service.client.StrategyServiceClient;
 import com.itmo.tinkoffinvestementbot.service.order.OrderService;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.stereotype.Service;
-import tinkoffinvestementbot.dto.CandlesDto;
 import tinkoffinvestementbot.dto.EventDto;
-import tinkoffinvestementbot.dto.OrderDto;
 import tinkoffinvestementbot.model.EventType;
 
 import java.util.List;
@@ -21,8 +20,8 @@ public class TransmitterServiceImpl implements TransmitterService {
 
     @Override
     public void transmit(String ticker) {
-        final List<CandlesDto> candles = stockServiceClient.getCandles(ticker);
-        final OrderDto orderDto = strategyServiceClient.fireEvent(new EventDto(EventType.CANDLE, ticker, candles));
+        val candles = stockServiceClient.getCandles(ticker);
+        val orderDto = strategyServiceClient.fireEvent(new EventDto(EventType.CANDLE, ticker, List.of(candles))); // FIXME
         if (orderDto != null) {
             orderService.sendOrder(orderDto);
         }

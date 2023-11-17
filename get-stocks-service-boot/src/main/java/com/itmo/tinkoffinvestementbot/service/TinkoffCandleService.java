@@ -3,6 +3,7 @@ package com.itmo.tinkoffinvestementbot.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.tinkoff.piapi.contract.v1.CandleInterval;
@@ -29,19 +30,22 @@ public class TinkoffCandleService implements CandleService {
     @Autowired
     private InvestApi api;
 
-    public List<CandlesDto> getCandlesByTicker(String ticker, String startDate, String endDate, CandleInterval candleInterval) throws DateTimeParseException {
+    public CandlesDto getCandlesByTicker(String ticker, String startDate, String endDate, CandleInterval candleInterval) throws DateTimeParseException {
 
-        List<InstrumentShort> instrumentShorts = api.getInstrumentsService().findInstrumentSync(ticker)
+        val optionalInstrument = api.getInstrumentsService().findInstrumentSync(ticker)
                 .stream()
                 .filter(instrumentShort -> instrumentShort.getTicker().equals(ticker)
-                        && !instrumentShort.getClassCode().equals("SPEQ")
-                        && !instrumentShort.getClassCode().equals("SMAL"))
-                .toList();
+                        && instrumentShort.getClassCode().startsWith("T"))
+                .findFirst();
 
+        if (optionalInstrument.isEmpty()) {
+            return null;
+        }
 
-        return instrumentShorts.stream().map(this::getStockModel)
+        return optionalInstrument
+                .map(this::getStockModel)
                 .map(instrumentInfo -> new CandlesDto(instrumentInfo, getCandlesByFigi(instrumentInfo.figi(), Instant.parse(startDate), Instant.parse(endDate), candleInterval)))
-                .toList();
+                .get();
 
     }
 
