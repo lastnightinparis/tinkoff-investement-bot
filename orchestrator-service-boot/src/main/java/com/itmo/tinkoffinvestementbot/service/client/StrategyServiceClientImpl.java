@@ -15,6 +15,7 @@ import tinkoffinvestementbot.dto.strategies.ResponseStrategyDto;
 import tinkoffinvestementbot.dto.strategies.RunStrategyRequestDto;
 
 import javax.annotation.Nullable;
+import java.net.URI;
 import java.util.List;
 
 @Service
@@ -42,11 +43,9 @@ public class StrategyServiceClientImpl implements StrategyServiceClient {
     public ResponseStrategyDto getInfo(RequestStrategyDto requestStrategyDto) {
         String resourceUrl = String.join("/", restConfig.getStrategyServiceUrl(), "strategy");
 
-        final ResponseEntity<ResponseStrategyDto> exchange = restTemplate.exchange(resourceUrl,
-                HttpMethod.GET,
-                new HttpEntity<>(requestStrategyDto),
-                new ParameterizedTypeReference<ResponseStrategyDto>() {
-                }
+        final ResponseEntity<ResponseStrategyDto> exchange = restTemplate.postForEntity(URI.create(resourceUrl),
+                requestStrategyDto,
+                ResponseStrategyDto.class
         );
 
         final ResponseStrategyDto body = exchange.getBody();
