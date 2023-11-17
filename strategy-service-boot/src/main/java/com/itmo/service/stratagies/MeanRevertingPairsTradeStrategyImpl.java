@@ -1,9 +1,7 @@
 package com.itmo.service.stratagies;
 
 import jdk.jfr.Description;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import tinkoffinvestementbot.dto.stratagies.TradeSignal;
 import tinkoffinvestementbot.model.strategies.TradeEvent;
 
@@ -17,8 +15,6 @@ import java.util.stream.IntStream;
         вы хотите выбрать акции, которые имеют историческую тенденцию двигаться вместе. Это обычно акции компаний
         в одной отрасли или схожего бизнеса.
         """)
-@Service
-@RequiredArgsConstructor
 public class MeanRevertingPairsTradeStrategyImpl implements AbstractTradeStrategy {
     private String stock1Symbol;
     private String stock2Symbol;
@@ -26,11 +22,22 @@ public class MeanRevertingPairsTradeStrategyImpl implements AbstractTradeStrateg
     private List<Double> stock2Data;
     private Long quantity;
 
-    public void setup(List<Double> stock1Data, List<Double> stock2Data, String stock1Symbol, String stock2Symbol) {
+    public MeanRevertingPairsTradeStrategyImpl(
+            List<Double> stock1Data,
+            List<Double> stock2Data,
+            String stock1Symbol,
+            String stock2Symbol,
+            Long quantity
+    ) {
         this.stock1Data = stock1Data;
         this.stock2Data = stock2Data;
         this.stock1Symbol = stock1Symbol;
         this.stock2Symbol = stock2Symbol;
+        this.quantity = quantity;
+    }
+
+    public void setup(List<Double> stock1Data, List<Double> stock2Data, String stock1Symbol, String stock2Symbol) {
+
     }
 
     @Override

@@ -7,21 +7,20 @@ import tinkoffinvestementbot.model.strategies.TradeEvent;
 import java.util.List;
 
 public class MovingAverageCrossStrategyImpl implements AbstractTradeStrategy {
+    private static final int SHORT_WINDOW = 3;
+    private static final int LONG_WINDOW = 5;
+
     @Description("Количество акций, которое мы в данный момент держим")
     private long currentPositionQuantity;
-    private int shortWindow = 3;
-    private int longWindow = 5;
-    private List<Double> stockData;
     @Description("флаг, указывающий, что мы уже в позиции")
     private boolean currentlyInPosition = false;
     @Description("Тикер акции")
     private String stockSymbol;
-    private double totalCapital;
-    private double riskPerTrade = 0.02;
+    private final double totalCapital;
+    private final double riskPerTrade;
+    private List<Double> stockData;
 
     public MovingAverageCrossStrategyImpl(long currentPositionQuantity,
-                                          int shortWindow,
-                                          int longWindow,
                                           List<Double> stockData,
                                           boolean currentlyInPosition,
                                           String stockSymbol,
@@ -29,8 +28,6 @@ public class MovingAverageCrossStrategyImpl implements AbstractTradeStrategy {
                                           double riskPerTrade
     ) {
         this.currentPositionQuantity = currentPositionQuantity;
-        this.shortWindow = shortWindow;
-        this.longWindow = longWindow;
         this.stockData = stockData;
         this.currentlyInPosition = currentlyInPosition;
         this.stockSymbol = stockSymbol;
@@ -40,35 +37,34 @@ public class MovingAverageCrossStrategyImpl implements AbstractTradeStrategy {
 
     @Override
     public TradeSignal checkForExit() {
-        double shortSMA = calculateSMA(stockData, shortWindow);
-        double longSMA = calculateSMA(stockData, longWindow);
+        double shortSMA = calculateSMA(stockData, SHORT_WINDOW);
+        double longSMA = calculateSMA(stockData, LONG_WINDOW);
 
         if (shortSMA < longSMA && currentlyInPosition) {
             long quantity = currentPositionQuantity;
             currentlyInPosition = false;
             return new TradeSignal(TradeEvent.SELL, stockSymbol, quantity);
         }
-        return null;
+        return new TradeSignal(TradeEvent.HOLD, stockSymbol, currentPositionQuantity);
     }
 
     @Override
     public TradeSignal checkForEntry() {
-        double shortSMA = calculateSMA(stockData, shortWindow);
-        double longSMA = calculateSMA(stockData, longWindow);
+        double shortSMA = calculateSMA(stockData, SHORT_WINDOW);
+        double longSMA = calculateSMA(stockData, LONG_WINDOW);
 
         if (shortSMA > longSMA && !currentlyInPosition) {
-            double stockPrice = stockData.get(stockData.size());
+            double stockPrice = stockData.get(stockData.size() - 1);
             long quantity = calculateQuantity(stockPrice);
             currentlyInPosition = true;
             return new TradeSignal(TradeEvent.BUY, stockSymbol, quantity);
         }
-        return new TradeSignal(TradeEvent.HOLD, stockSymbol, 0L);
+        return new TradeSignal(TradeEvent.HOLD, stockSymbol, currentPositionQuantity);
     }
 
     private long calculateQuantity(double stockPrice) {
         double capitalAtRisk = totalCapital * riskPerTrade; // Капитал под риском
-        long quantity = (long) (capitalAtRisk / stockPrice);
-        return quantity;
+        return (long) (capitalAtRisk / stockPrice);
     }
 
     private double calculateSMA(List<Double> values, int window) {
