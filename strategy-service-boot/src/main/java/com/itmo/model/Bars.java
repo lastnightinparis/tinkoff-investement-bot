@@ -38,7 +38,5 @@ public class Bars {
         private double close;
         private double adjClose;
         private long volume;
-
-        // Конструкторы, геттеры и сеттеры
     }
 }
