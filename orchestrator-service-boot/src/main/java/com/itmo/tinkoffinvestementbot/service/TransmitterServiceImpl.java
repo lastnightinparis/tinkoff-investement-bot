@@ -66,8 +66,6 @@ public class TransmitterServiceImpl implements TransmitterService {
                     new RequestStrategyDto(strategy.type(),
                             new StrategyDto(
                                     100,
-                                    3,
-                                    5,
                                     List.of(new StockData(strategy.ticker(), TimePeriod.ONE_HOUR, candles.stream().map(candle -> candle.openPrice().add(candle.closePrice()).doubleValue() / 2.0).collect(Collectors.toList()))),
                                     true,
                                     candles.get(0).closePrice().doubleValue(),

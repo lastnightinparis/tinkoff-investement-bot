@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="Run Stock Service" type="Application" factoryName="Application">
+        <option name="MAIN_CLASS_NAME" value="com.itmo.tinkoffinvestementbot.StocksServiceBootApplication"/>
+        <module name="get-stocks-service-boot"/>
+        <extension name="coverage">
+            <pattern>
+                <option name="PATTERN" value="com.itmo.tinkoffinvestementbot.*"/>
+                <option name="ENABLED" value="true"/>
+            </pattern>
+        </extension>
+        <method v="2">
+            <option name="Make" enabled="true"/>
+        </method>
+    </configuration>
+</component>
