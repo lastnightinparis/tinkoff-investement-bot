@@ -5,6 +5,6 @@ import tinkoffinvestementbot.model.strategies.StratagyType;
 import java.util.Map;
 
 public record RequestStrategyDto(
-        StratagyType stratagyName,
+        StratagyType strategyName,
         StrategyDto strategy
 ) { }

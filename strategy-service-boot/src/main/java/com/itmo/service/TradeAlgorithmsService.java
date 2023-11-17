@@ -24,11 +24,12 @@ public class TradeAlgorithmsService {
         TradeSignal enters;
         TradeSignal exits;
 
-        if (dto.stratagyName().equals(StratagyType.MAC)) {
+        if (dto.strategyName().equals(StratagyType.MAC)) {
             StrategyDto s = dto.strategy();
 
             StockData stockData = s.stockDatas().get(0);
-            strategy = new MovingAverageCrossStrategyImpl(s.currentPositionQuantity(),
+            strategy = new MovingAverageCrossStrategyImpl(
+                    s.currentPositionQuantity(),
                     s.shortWindow(),
                     s.longWindow(),
                     stockData.data(),
@@ -37,7 +38,7 @@ public class TradeAlgorithmsService {
                     s.totalCapital(),
                     s.riskPerTrade()
             );
-        } else if (dto.stratagyName().equals(StratagyType.MRP)) {
+        } else if (dto.strategyName().equals(StratagyType.MRP)) {
             strategy = new MeanRevertingPairsTradeStrategyImpl();
         }
         if (strategy == null) {

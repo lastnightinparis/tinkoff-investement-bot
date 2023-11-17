@@ -2,7 +2,6 @@ package com.itmo.controller;
 
 import com.itmo.service.TradeAlgorithmsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +21,4 @@ public class StrategiesController {
         return tradeAlgorithmsService.getTradePoints(dto);
     }
 
-    @GetMapping
-    public ResponseStrategyDto getStrategies(@RequestBody RequestStrategyDto dto) {
-        return tradeAlgorithmsService.getTradePoints(dto);
-    }
 }
