@@ -1,8 +1,8 @@
 package tinkoffinvestementbot.dto.strategies;
 
-import tinkoffinvestementbot.model.strategies.StratagyType;
+import tinkoffinvestementbot.model.strategies.StrategyType;
 
 public record RequestStrategyDto(
-        StratagyType strategyName,
+        StrategyType strategyName,
         StrategyDto strategy
 ) { }

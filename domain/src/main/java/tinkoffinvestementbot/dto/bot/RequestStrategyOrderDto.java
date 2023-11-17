@@ -9,6 +9,7 @@ import java.util.HashMap;
  * Пример: { 1, "APL", { "currency": "RUB" } }
  */
 public record RequestStrategyOrderDto(
-    Long userId, String ticker,
+        Long userId,
+        String ticker,
     HashMap<String, String> additionalParams
 ) {}

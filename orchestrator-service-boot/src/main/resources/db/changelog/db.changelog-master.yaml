@@ -59,3 +59,28 @@ databaseChangeLog:
               - column:
                   name: user_id
                   type: BIGINT
+  - changeSet:
+      id: 4
+      author: Liquibase
+      changes:
+        - createTable:
+            tableName: strategies
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: type
+                  type: varchar(28)
+              - column:
+                  name: ticker
+                  type: varchar(28)
+              - column:
+                  name: risk_rating
+                  type: real
+              - column:
+                  name: user_id
+                  type: BIGINT

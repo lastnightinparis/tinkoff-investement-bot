@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tinkoffinvestementbot.dto.strategies.*;
-import tinkoffinvestementbot.model.strategies.StratagyType;
+import tinkoffinvestementbot.model.strategies.StrategyType;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class TradeAlgorithmsService {
         TradeSignal enters;
         TradeSignal exits;
 
-        if (dto.strategyName().equals(StratagyType.MAC)) {
+        if (dto.strategyName().equals(StrategyType.MAC)) {
             StrategyDto s = dto.strategy();
 
             StockData stockData = s.stockDatas().get(0);
@@ -34,7 +34,7 @@ public class TradeAlgorithmsService {
                     s.totalCapital(),
                     s.riskPerTrade()
             );
-        } else if (dto.strategyName().equals(StratagyType.MRP)) {
+        } else if (dto.strategyName().equals(StrategyType.MRP)) {
             strategy = new MeanRevertingPairsTradeStrategyImpl();
         }
         if (strategy == null) {

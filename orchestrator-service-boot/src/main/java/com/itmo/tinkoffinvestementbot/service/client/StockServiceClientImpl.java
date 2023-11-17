@@ -23,7 +23,7 @@ public class StockServiceClientImpl implements StockServiceClient {
         val now = Instant.now();
         val resourceUrl = restConfig.getStockServiceUrl() + "/customCandles"
                 + "?ticker=" + ticker
-                + "&startDate=" + now.minus(1L, ChronoUnit.WEEKS)
+                + "&startDate=" + now.minus(7L, ChronoUnit.DAYS)
                 + "&endDate=" + now
                 + "&intervalMin=60";
 

@@ -1,6 +1,6 @@
 package tinkoffinvestementbot.model.strategies;
 
-public enum StratagyType {
+public enum StrategyType {
     MAC,
     MRP,
 }
