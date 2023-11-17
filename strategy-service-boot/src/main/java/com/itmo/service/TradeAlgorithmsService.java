@@ -41,7 +41,7 @@ public class TradeAlgorithmsService {
                 exits = strategy.checkForExit();
             }
 
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             statusMessages.add(e.getMessage());
         }
 
