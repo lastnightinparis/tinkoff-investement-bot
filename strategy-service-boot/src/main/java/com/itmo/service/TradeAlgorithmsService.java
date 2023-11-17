@@ -9,39 +9,66 @@ import org.springframework.stereotype.Service;
 import tinkoffinvestementbot.dto.strategies.*;
 import tinkoffinvestementbot.model.strategies.StrategyType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class TradeAlgorithmsService {
+    private List<String> statusMessages = new ArrayList<>();
+
     public ResponseStrategyDto getTradePoints(RequestStrategyDto dto) {
         AbstractTradeStrategy strategy = null;
-        TradeSignal enters;
-        TradeSignal exits;
+        TradeSignal enters = null;
+        TradeSignal exits = null;
+        StrategyDto s = dto.strategy();
 
-        if (dto.strategyName().equals(StrategyType.MAC)) {
-            StrategyDto s = dto.strategy();
+        try {
+            if (dto.strategyName().equals(StrategyType.MAC)) {
+                strategy = buildMovingAverageCrossStrategy(s);
+            } else if (dto.strategyName().equals(StrategyType.MRP)) {
+                strategy = buildMeanRevertingPairsTradeStrategy(s);
+            }
+            if (strategy == null) {
+                statusMessages.add("Выбранная стратеги не существует либо не выбрана.");
+            } else {
+                enters = strategy.checkForEntry();
+                exits = strategy.checkForExit();
+            }
 
-            StockData stockData = s.stockDatas().get(0);
-            strategy = new MovingAverageCrossStrategyImpl(
-                    s.currentPositionQuantity(),
-                    s.shortWindow(),
-                    s.longWindow(),
-                    stockData.data(),
-                    s.currentlyInPosition(),
-                    stockData.stockSymbol(),
-                    s.totalCapital(),
-                    s.riskPerTrade()
-            );
-        } else if (dto.strategyName().equals(StrategyType.MRP)) {
-            strategy = new MeanRevertingPairsTradeStrategyImpl();
+        } catch (Exception e) {
+            statusMessages.add(e.getMessage());
         }
-        if (strategy == null) {
-            return new ResponseStrategyDto(null, null);
-        }
-        enters = strategy.checkForEntry();
-        exits = strategy.checkForExit();
-        return new ResponseStrategyDto(List.of(enters), List.of(exits));
+
+        return new ResponseStrategyDto(List.of(enters), List.of(exits), statusMessages);
+    }
+
+    private static AbstractTradeStrategy buildMeanRevertingPairsTradeStrategy(StrategyDto s) {
+        AbstractTradeStrategy strategy;
+        StockData stockData1 = s.stockDatas().get(0);
+        StockData stockData2 = s.stockDatas().get(1);
+        strategy = new MeanRevertingPairsTradeStrategyImpl(
+                stockData1.data(),
+                stockData2.data(),
+                stockData1.stockSymbol(),
+                stockData2.stockSymbol(),
+                s.currentPositionQuantity()
+        );
+        return strategy;
+    }
+
+    private static AbstractTradeStrategy buildMovingAverageCrossStrategy(StrategyDto s) {
+        AbstractTradeStrategy strategy;
+        StockData stockData = s.stockDatas().get(0);
+        strategy = new MovingAverageCrossStrategyImpl(
+                s.currentPositionQuantity(),
+                stockData.data(),
+                s.currentlyInPosition(),
+                stockData.stockSymbol(),
+                s.totalCapital(),
+                s.riskPerTrade()
+        );
+        return strategy;
     }
 }
