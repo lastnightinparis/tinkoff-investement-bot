@@ -18,13 +18,9 @@ public class OrderServiceImpl extends AbstractOrderServiceImpl {
     @Autowired
     public OrderServiceImpl(PostOrderConverter postOrderConverter,
                             TinkoffUserRepository tinkoffUserRepository,
-                            TradeOrderRepository tradeOrderRepository) {
-        super(postOrderConverter, tinkoffUserRepository, tradeOrderRepository);
-    }
-
-    @Override
-    public InvestApi getInvestApi(String token) {
-        return InvestApi.create(token);
+                            TradeOrderRepository tradeOrderRepository,
+                            InvestApiProvider investApiProvider) {
+        super(postOrderConverter, tinkoffUserRepository, tradeOrderRepository, investApiProvider);
     }
 
     @Override

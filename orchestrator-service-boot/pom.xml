@@ -25,6 +25,10 @@
             <artifactId>liquibase-core</artifactId>
             <version>4.23.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

@@ -2,7 +2,7 @@
     <configuration default="false" name="Run Orchestrator" type="Application" factoryName="Application">
         <option name="MAIN_CLASS_NAME" value="com.itmo.tinkoffinvestementbot.OrchestratorApplication"/>
         <module name="orchestrator-service-boot"/>
-        <option name="PROGRAM_PARAMETERS" value="--spring.active.profiles=dev"/>
+        <option name="PROGRAM_PARAMETERS" value="--spring.profiles.active=dev"/>
         <extension name="coverage">
             <pattern>
                 <option name="PATTERN" value="com.itmo.tinkoffinvestementbot.*"/>

@@ -21,14 +21,13 @@ public abstract class AbstractOrderServiceImpl implements OrderService {
     protected final PostOrderConverter postOrderConverter;
     protected final TinkoffUserRepository tinkoffUserRepository;
     protected final TradeOrderRepository tradeOrderRepository;
-
-    public abstract InvestApi getInvestApi(String token);
+    protected final InvestApiProvider investApiProvider;
 
     public abstract PostOrderResponse postOrder(InvestApi investApi, String instrumentId, Long quantity, OrderDirection orderDirection, String accountId);
 
     public OrderResult sendOrder(OrderDto orderDto) {
         val user = tinkoffUserRepository.get(orderDto.userId());
-        val investApi = getInvestApi(user.token());
+        val investApi = investApiProvider.getInvestApi(user);
 
         val orderSide = orderDto.side();
         if (orderSide == OrderSide.HOLD) {

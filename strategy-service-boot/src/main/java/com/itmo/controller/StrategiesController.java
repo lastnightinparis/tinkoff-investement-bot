@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 import tinkoffinvestementbot.dto.strategies.RequestStrategyDto;
 import tinkoffinvestementbot.dto.strategies.ResponseStrategyDto;
 
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
+
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(StrategiesController.ROOT)
+@RequestMapping(path = StrategiesController.ROOT, consumes = APPLICATION_JSON, produces = APPLICATION_JSON)
 public class StrategiesController {
     public static final String ROOT = "/strategies";
     private final TradeAlgorithmsService tradeAlgorithmsService;
