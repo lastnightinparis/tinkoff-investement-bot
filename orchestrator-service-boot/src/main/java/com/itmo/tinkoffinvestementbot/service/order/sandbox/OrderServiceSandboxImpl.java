@@ -2,7 +2,9 @@ package com.itmo.tinkoffinvestementbot.service.order.sandbox;
 
 import com.itmo.tinkoffinvestementbot.repository.TinkoffUserRepository;
 import com.itmo.tinkoffinvestementbot.repository.TradeOrderRepository;
+import com.itmo.tinkoffinvestementbot.service.client.OrderNotificationServiceClient;
 import com.itmo.tinkoffinvestementbot.service.order.AbstractOrderServiceImpl;
+import com.itmo.tinkoffinvestementbot.service.order.InvestApiProvider;
 import com.itmo.tinkoffinvestementbot.service.order.PostOrderConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +20,14 @@ import static java.util.UUID.randomUUID;
 @Profile("dev")
 public class OrderServiceSandboxImpl extends AbstractOrderServiceImpl {
 
+
     @Autowired
     public OrderServiceSandboxImpl(PostOrderConverter postOrderConverter,
                                    TinkoffUserRepository tinkoffUserRepository,
-                                   TradeOrderRepository tradeOrderRepository) {
-        super(postOrderConverter, tinkoffUserRepository, tradeOrderRepository);
-    }
-
-    @Override
-    public InvestApi getInvestApi(String token) {
-        return InvestApi.createSandbox(token);
+                                   TradeOrderRepository tradeOrderRepository,
+                                   InvestApiProvider investApiProvider,
+                                   OrderNotificationServiceClient orderNotificationServiceClient) {
+        super(postOrderConverter, tinkoffUserRepository, tradeOrderRepository, investApiProvider, orderNotificationServiceClient);
     }
 
     @Override

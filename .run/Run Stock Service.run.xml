@@ -1,8 +1,7 @@
 <component name="ProjectRunConfigurationManager">
-    <configuration default="false" name="Run Orchestrator" type="Application" factoryName="Application">
-        <option name="MAIN_CLASS_NAME" value="com.itmo.tinkoffinvestementbot.OrchestratorApplication"/>
-        <module name="orchestrator-service-boot"/>
-        <option name="PROGRAM_PARAMETERS" value="--spring.profiles.active=dev"/>
+    <configuration default="false" name="Run Stock Service" type="Application" factoryName="Application">
+        <option name="MAIN_CLASS_NAME" value="com.itmo.tinkoffinvestementbot.StocksServiceBootApplication"/>
+        <module name="get-stocks-service-boot"/>
         <extension name="coverage">
             <pattern>
                 <option name="PATTERN" value="com.itmo.tinkoffinvestementbot.*"/>

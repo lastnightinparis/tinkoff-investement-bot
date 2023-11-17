@@ -15,7 +15,9 @@ import com.itmo.tinkoffinvestementbot.service.users.UserService;
 import com.itmo.tinkoffinvestementbot.utils.bot.keyboard.inline.InlineButtonWrappedObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
@@ -23,7 +25,6 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import tinkoffinvestementbot.dto.bot.ResponseStrategyInfoDto;
-import tinkoffinvestementbot.dto.bot.ValidateTokenResponse;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +36,7 @@ import static org.telegram.telegrambots.meta.api.methods.ParseMode.MARKDOWN;
 @Service
 @RequiredArgsConstructor
 public class StartTradingHandler implements CallbackUpdate, TextUpdate, BotStateTypeHandler {
+    private static final String ORCHESTRATOR_URL = "http://localhost:9998";
 
     private final UserService userService;
     private final StrategyService strategyService;
@@ -42,6 +44,8 @@ public class StartTradingHandler implements CallbackUpdate, TextUpdate, BotState
     private final ResourceMessageRegistry messageRegistry;
     private final InlineKeyboardService inlineKeyboardService;
     private final TempTradingOrderService tempTradingOrderService;
+
+    private final RestTemplate restTemplate = new RestTemplate();
 
     @Override
     public void handleCallback(User user, CallbackQuery callbackQuery) {
@@ -119,9 +123,15 @@ public class StartTradingHandler implements CallbackUpdate, TextUpdate, BotState
                             order.getAdditionalParamNames(), order.getAdditionalParamValues()
                     ));
                 } else {
-                    // TODO: Отправить заявку на активацию стратегии
-                    ValidateTokenResponse response = new ValidateTokenResponse(true);
-                    if (response.isSuccess()) {
+                    var response = restTemplate.exchange(ORCHESTRATOR_URL
+                                    + "/subscribe?userId=" + user.getId()
+                                    + "&strategyId=" + order.getStrategyId()
+                                    + "&ticker=" + order.getTicker()
+                                    + "&riskRating=" + order.getAdditionalParamValues().get("stop-loss"),
+                            HttpMethod.GET,
+                            null,
+                            String.class);
+                    if (response.getStatusCode().is2xxSuccessful()) {
                         sendMessage.setText(messageRegistry.getMessage("trading.successCreatingOrder"));
                     } else {
                         sendMessage.setText(messageRegistry.getMessage("trading.failCreatingOrder"));

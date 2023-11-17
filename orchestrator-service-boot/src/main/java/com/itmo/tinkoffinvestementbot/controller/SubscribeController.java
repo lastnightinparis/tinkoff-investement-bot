@@ -2,10 +2,9 @@ package com.itmo.tinkoffinvestementbot.controller;
 
 import com.itmo.tinkoffinvestementbot.service.SubscribeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.val;
+import org.springframework.web.bind.annotation.*;
+import tinkoffinvestementbot.model.strategies.StrategyType;
 
 import java.util.UUID;
 
@@ -14,12 +13,15 @@ import java.util.UUID;
 public class SubscribeController {
     private final SubscribeService subscribeService;
 
-    @GetMapping("/subscribe/{ticker}")
-    public UUID subscribe(@PathVariable String ticker) {
-        return subscribeService.subscribe(ticker);
+    @GetMapping("/subscribe")
+    public String subscribe(@RequestParam Long strategyId, @RequestParam Long userId, @RequestParam String ticker, @RequestParam Double riskRating) {
+        val strategyType = strategyId == 1L
+                ? StrategyType.MAC
+                : StrategyType.MRP;
+        return subscribeService.subscribe(strategyType, userId, ticker, riskRating).toString();
     }
 
-    @PostMapping("/cancel/{taskId}")
+    @DeleteMapping("/cancel/{taskId}")
     public void cancel(@PathVariable UUID taskId) {
         subscribeService.cancel(taskId);
     }

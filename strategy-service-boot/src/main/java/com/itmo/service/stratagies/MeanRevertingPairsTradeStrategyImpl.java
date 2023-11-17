@@ -2,7 +2,7 @@ package com.itmo.service.stratagies;
 
 import jdk.jfr.Description;
 import lombok.extern.slf4j.Slf4j;
-import tinkoffinvestementbot.dto.stratagies.TradeSignal;
+import tinkoffinvestementbot.dto.strategies.TradeSignal;
 import tinkoffinvestementbot.model.strategies.TradeEvent;
 
 import java.util.List;

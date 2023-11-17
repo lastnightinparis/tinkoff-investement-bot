@@ -2,17 +2,16 @@ package com.itmo.tinkoffinvestementbot.service.client;
 
 import com.itmo.tinkoffinvestementbot.config.RestConfig;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import tinkoffinvestementbot.dto.EventDto;
 import tinkoffinvestementbot.dto.OrderDto;
-import tinkoffinvestementbot.dto.stratagies.RequestStrategyDto;
-import tinkoffinvestementbot.dto.stratagies.ResponseStrategyDto;
-import tinkoffinvestementbot.dto.stratagies.RunStrategyRequestDto;
+import tinkoffinvestementbot.dto.strategies.RequestStrategyDto;
+import tinkoffinvestementbot.dto.strategies.ResponseStrategyDto;
+import tinkoffinvestementbot.dto.strategies.RunStrategyRequestDto;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -40,14 +39,11 @@ public class StrategyServiceClientImpl implements StrategyServiceClient {
 
     @Override
     public ResponseStrategyDto getInfo(RequestStrategyDto requestStrategyDto) {
-        String resourceUrl = String.join("/", restConfig.getStrategyServiceUrl(), "strategy");
-
-        final ResponseEntity<ResponseStrategyDto> exchange = restTemplate.exchange(resourceUrl,
-                HttpMethod.GET,
-                new HttpEntity<>(requestStrategyDto),
-                new ParameterizedTypeReference<ResponseStrategyDto>() {
-                }
-        );
+        val resourceUrl = String.join("/", restConfig.getStrategyServiceUrl(), "strategies");
+        val headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        val entity = new HttpEntity<>(requestStrategyDto, headers);
+        val exchange = restTemplate.exchange(resourceUrl, HttpMethod.POST, entity, ResponseStrategyDto.class);
 
         final ResponseStrategyDto body = exchange.getBody();
         return body;

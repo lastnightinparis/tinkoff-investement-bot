@@ -1,4 +1,4 @@
-package tinkoffinvestementbot.dto.stratagies;
+package tinkoffinvestementbot.dto.strategies;
 
 public enum MacParameters {
     CURRENT_POSITION_QUANTITY("currentPositionQuantity"),

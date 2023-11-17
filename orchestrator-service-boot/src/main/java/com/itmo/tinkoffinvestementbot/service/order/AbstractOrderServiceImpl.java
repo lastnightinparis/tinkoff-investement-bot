@@ -2,6 +2,7 @@ package com.itmo.tinkoffinvestementbot.service.order;
 
 import com.itmo.tinkoffinvestementbot.repository.TinkoffUserRepository;
 import com.itmo.tinkoffinvestementbot.repository.TradeOrderRepository;
+import com.itmo.tinkoffinvestementbot.service.client.OrderNotificationServiceClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -21,14 +22,14 @@ public abstract class AbstractOrderServiceImpl implements OrderService {
     protected final PostOrderConverter postOrderConverter;
     protected final TinkoffUserRepository tinkoffUserRepository;
     protected final TradeOrderRepository tradeOrderRepository;
-
-    public abstract InvestApi getInvestApi(String token);
+    protected final InvestApiProvider investApiProvider;
+    private final OrderNotificationServiceClient notificationServiceClient;
 
     public abstract PostOrderResponse postOrder(InvestApi investApi, String instrumentId, Long quantity, OrderDirection orderDirection, String accountId);
 
     public OrderResult sendOrder(OrderDto orderDto) {
         val user = tinkoffUserRepository.get(orderDto.userId());
-        val investApi = getInvestApi(user.token());
+        val investApi = investApiProvider.getInvestApi(user);
 
         val orderSide = orderDto.side();
         if (orderSide == OrderSide.HOLD) {
@@ -42,6 +43,7 @@ public abstract class AbstractOrderServiceImpl implements OrderService {
                 orderSide.getDirection(), user.accountId());
         val result = postOrderConverter.convert(postOrderResponse);
         log.info("Saved order: {}", tradeOrderRepository.save(result, user));
+        notificationServiceClient.notify(user, result.status(), investApi.getSandboxService().getOrderStateSync(user.accountId(), result.id()));
         return result;
     }
 

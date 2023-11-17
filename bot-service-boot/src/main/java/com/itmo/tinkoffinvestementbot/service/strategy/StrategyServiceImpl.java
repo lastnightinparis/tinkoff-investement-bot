@@ -12,18 +12,16 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class StrategyServiceImpl implements StrategyService {
 
-    private static Map<Long, HashMap<String, String>> tempParamStorage = new HashMap<>();
+    private static final Map<Long, HashMap<String, String>> tempParamStorage = new HashMap<>();
 
     @Override
     public List<ResponseStrategyInfoDto> getAllInfo() {
         // TODO: Получение информации о стратегии и дополнительных параметров
-        HashMap<String, String> additionalParams = new HashMap<>();
-        additionalParams.put("currency", "Валюта");
-        additionalParams.put("stop-loss", "Стоп-лосс");
+        HashMap<String, String> additionalParams = new HashMap<>(
+                Map.of("stop-loss", "Допустимый уровень просадки в %"));
         List<ResponseStrategyInfoDto> responseStrategyInfoDtos = List.of(
-                new ResponseStrategyInfoDto(1L, "Супер стратегия 1", additionalParams),
-                new ResponseStrategyInfoDto(2L, "Супер стратегия 2", additionalParams),
-                new ResponseStrategyInfoDto(3L, "Супер стратегия 3", additionalParams)
+                new ResponseStrategyInfoDto(1L, "MAC", additionalParams),
+                new ResponseStrategyInfoDto(2L, "MRP", additionalParams)
         );
 
         // Вынужденный костыль

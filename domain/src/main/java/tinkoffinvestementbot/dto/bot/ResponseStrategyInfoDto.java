@@ -9,6 +9,7 @@ import java.util.HashMap;
  * Пример: { "Супер стратегия", { "currency": "валюта" } }
  */
 public record ResponseStrategyInfoDto(
-    Long strategyId, String name,
+        Long strategyId,
+        String name,
     HashMap<String, String> additionalParams
 ) {}
