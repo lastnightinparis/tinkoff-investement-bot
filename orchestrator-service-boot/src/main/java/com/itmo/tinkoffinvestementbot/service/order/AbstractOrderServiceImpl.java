@@ -2,6 +2,7 @@ package com.itmo.tinkoffinvestementbot.service.order;
 
 import com.itmo.tinkoffinvestementbot.repository.TinkoffUserRepository;
 import com.itmo.tinkoffinvestementbot.repository.TradeOrderRepository;
+import com.itmo.tinkoffinvestementbot.service.client.OrderNotificationServiceClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -22,6 +23,7 @@ public abstract class AbstractOrderServiceImpl implements OrderService {
     protected final TinkoffUserRepository tinkoffUserRepository;
     protected final TradeOrderRepository tradeOrderRepository;
     protected final InvestApiProvider investApiProvider;
+    private final OrderNotificationServiceClient notificationServiceClient;
 
     public abstract PostOrderResponse postOrder(InvestApi investApi, String instrumentId, Long quantity, OrderDirection orderDirection, String accountId);
 
@@ -41,6 +43,7 @@ public abstract class AbstractOrderServiceImpl implements OrderService {
                 orderSide.getDirection(), user.accountId());
         val result = postOrderConverter.convert(postOrderResponse);
         log.info("Saved order: {}", tradeOrderRepository.save(result, user));
+        notificationServiceClient.notify(user, result.status(), investApi.getSandboxService().getOrderStateSync(user.accountId(), result.id()));
         return result;
     }
 

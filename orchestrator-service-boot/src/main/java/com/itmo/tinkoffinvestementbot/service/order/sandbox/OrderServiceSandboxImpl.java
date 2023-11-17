@@ -2,6 +2,7 @@ package com.itmo.tinkoffinvestementbot.service.order.sandbox;
 
 import com.itmo.tinkoffinvestementbot.repository.TinkoffUserRepository;
 import com.itmo.tinkoffinvestementbot.repository.TradeOrderRepository;
+import com.itmo.tinkoffinvestementbot.service.client.OrderNotificationServiceClient;
 import com.itmo.tinkoffinvestementbot.service.order.AbstractOrderServiceImpl;
 import com.itmo.tinkoffinvestementbot.service.order.InvestApiProvider;
 import com.itmo.tinkoffinvestementbot.service.order.PostOrderConverter;
@@ -19,12 +20,14 @@ import static java.util.UUID.randomUUID;
 @Profile("dev")
 public class OrderServiceSandboxImpl extends AbstractOrderServiceImpl {
 
+
     @Autowired
     public OrderServiceSandboxImpl(PostOrderConverter postOrderConverter,
                                    TinkoffUserRepository tinkoffUserRepository,
                                    TradeOrderRepository tradeOrderRepository,
-                                   InvestApiProvider investApiProvider) {
-        super(postOrderConverter, tinkoffUserRepository, tradeOrderRepository, investApiProvider);
+                                   InvestApiProvider investApiProvider,
+                                   OrderNotificationServiceClient orderNotificationServiceClient) {
+        super(postOrderConverter, tinkoffUserRepository, tradeOrderRepository, investApiProvider, orderNotificationServiceClient);
     }
 
     @Override

@@ -26,7 +26,7 @@ public class OrderStatusChangeObserverImpl implements OrderStatusChangeObserver 
     @Scheduled(fixedDelay = 30L, timeUnit = TimeUnit.SECONDS)
     public void checkOrdersStatus() {
         val createdOrders = tradeOrderRepository.getNewOrders();
-
+        log.info("В БД {} ордеров в не финальном статусе. Будем опрашивать каждый", createdOrders.size());
         createdOrders.stream().parallel()
                 .forEach(dbOrder -> {
                     var user = dbOrder.tinkoffUser();
@@ -34,6 +34,7 @@ public class OrderStatusChangeObserverImpl implements OrderStatusChangeObserver 
                     var relevantOrder = api.getOrdersService().getOrderStateSync(user.accountId(), dbOrder.id());
                     var relevantStatus = OrderStatus.getByExecutionReportStatus(relevantOrder.getExecutionReportStatus());
                     if (relevantStatus != dbOrder.status()) {
+                        log.info("Обновляем в БД статус ордера {}", relevantOrder);
                         // сохраняем статус в БД
                         dbOrder.status(relevantStatus);
                         tradeOrderRepository.save(dbOrder);

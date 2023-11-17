@@ -5,6 +5,7 @@ import com.itmo.tinkoffinvestementbot.service.client.StockServiceClient;
 import com.itmo.tinkoffinvestementbot.service.client.StrategyServiceClient;
 import com.itmo.tinkoffinvestementbot.service.order.OrderService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @SuppressWarnings("rawusage")
@@ -67,29 +69,37 @@ public class TransmitterServiceImpl implements TransmitterService {
                             new StrategyDto(
                                     100,
                                     List.of(new StockData(strategy.ticker(), TimePeriod.ONE_HOUR, candles.stream().map(candle -> candle.openPrice().add(candle.closePrice()).doubleValue() / 2.0).collect(Collectors.toList()))),
-                                    true,
+                                    false,
                                     candles.get(0).closePrice().doubleValue(),
                                     10_000.0,
                                     strategy.riskRating()
                             )));
 
-            val enterAction = strategyResolution.enterPoints().stream().findFirst();
+            val enterAction = strategyResolution.enterPoints().stream()
+                    .filter(ea -> ea.action() == TradeEvent.BUY)
+                    .findFirst();
             if (enterAction.isPresent()) {
                 var action = enterAction.get();
                 if (action.action() == TradeEvent.BUY) {
+                    log.info("Стратегия сказала покупать бумаги {}!", strategy.ticker());
                     orderService.sendOrder(new OrderDto(strategy.tinkoffUser().id(), quotes.instrumentInfo().figi(), action.quantity(), OrderSide.BUY));
                     return;
                 }
             }
 
-            val exitAction = strategyResolution.exitPoints().stream().findFirst();
+            val exitAction = strategyResolution.exitPoints().stream()
+                    .filter(ea -> ea.action() == TradeEvent.SELL)
+                    .findFirst();
             if (exitAction.isPresent()) {
                 var action = exitAction.get();
                 if (action.action() == TradeEvent.SELL) {
+                    log.info("Стратегия сказала продавать бумаги {}!", strategy.ticker());
                     orderService.sendOrder(new OrderDto(strategy.tinkoffUser().id(), quotes.instrumentInfo().figi(), action.quantity(), OrderSide.SELL));
                     return;
                 }
             }
+
+            log.info("Стратегия сказала затерпеть с бумагой{}!", strategy.ticker());
         }
 
 
